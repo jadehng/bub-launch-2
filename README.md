@@ -1,89 +1,44 @@
 # Bubble AI Investment Assistant
 
-A professional investment chatbot interface that simulates a personal AI portfolio manager experience.
+## Mission & Vision
+Bubble Invest is building a new financial paradigm for the 21st century: honest, transparent, and accessible investing for everyone. Our AI-powered chatbot democratizes financial expertise, providing real-time portfolio management, education, and guidance—without the high fees or opacity of traditional finance. We leverage cutting-edge AI to empower users, return value directly to investors, and make finance simple, ethical, and understandable.
 
-## 🚀 Recent Enhancements
+## What is This Project?
+This project is a professional investment chatbot interface—one of Bubble Invest’s core products. It acts as a personal AI portfolio manager, educator, and advisor. Users can:
+- Get personalized investment insights and answers 24/7
+- Learn about financial concepts in clear, accessible language
+- Manage and analyze their portfolio with transparency
+- Enjoy a modern, intuitive, and mobile-friendly UX
+- Join the waitlist for early access via the [Bubble Waitlist App](https://bubblewaitlist.replit.app/), connected to our Notion database
 
-### ✅ **Fixed Issues**
-1. **Sample Questions**: Added proper investment-focused sample questions instead of "chat.question1" placeholders
-2. **Chat History**: Implemented functional sidebar history with persistent storage
-3. **Language Toggle**: Added working EN/FR language switching for both UI and AI responses
-4. **Professional Design**: Enhanced with fintech-grade styling and layout
+## Key Features
+- **AI-Powered Guidance**: Reliable, real-time answers and portfolio analysis
+- **Education**: Financial concepts explained simply
+- **Transparency**: All strategies, fees, and advice are clear and open
+- **Modern UX**: Brand-aligned, responsive, and easy to use
+- **Quick Actions & Suggestions**: Smart shortcuts and sample questions
+- **Waitlist Onboarding**: Seamless signup for early adopters
 
-### 🆕 **New Features**
-1. **Investment-Focused Interface**: 
-   - Portfolio overview widget with mock data
-   - Investment-specific sample questions (performance, positions, trades)
-   - Professional financial advisor tone
+## Recent Enhancements (2025)
+- Logo adapts to dark/light themes
+- Buttons and icons updated for brand consistency
+- Sidebar/settings/welcome icons now SVGs, sized and aligned
+- Welcome tile and suggestion tiles redesigned for clarity and modern look
+- Quick shortcuts updated (Stock ETFs, Debt ETFs, Leverage, Real Estate)
+- Main chatbot question and input area restyled for sleek, tech-inspired UX
+- All changes follow the Charte Graphique Bubble.md
 
-2. **Enhanced UX**:
-   - Larger, more prominent chat interface
-   - Animated placeholder text rotation
-   - Quick action shortcuts for common queries
-   - Glassmorphism design effects
-
-3. **Header Integration**:
-   - Sign In / Log In buttons (placeholders)
-   - Join Waitlist modal with Notion integration
-   - Learn More button
-
-4. **Mobile Responsive**: 
-   - Collapsible sidebar
-   - Touch-friendly interface
-   - Optimized for mobile usage
-
-## 🎯 **Sample Investment Questions**
-
-The chatbot now responds to questions like:
-- "What's my portfolio performance today?"
-- "Show me my Bitcoin position"
-- "What trades did you execute this week?"
-- "What's my current cash balance?"
-- "How is my risk exposure looking?"
-
-## 🛠 **Technical Features**
-
-- **Dual System Prompts**: Marketing mode vs Investment Assistant mode
-- **Chat History Management**: Persistent storage with localStorage
-- **Language Detection**: Automatic UI translation
-- **Mock Portfolio Data**: Realistic investment data for demos
-- **Notion Integration**: Waitlist signups go directly to database
-
-## 🎨 **Design Philosophy**
-
-The interface now feels like logging into a professional investment account (similar to Robinhood, Wealthfront) rather than a marketing chatbot. Key improvements:
-
-- Professional color scheme with investment-focused UI
-- Real-time portfolio data display
-- Financial terminology and data presentation
-- Clean, modern fintech aesthetic
-
-## 🚀 **Usage**
-
+## Usage
 1. Open `chatbot-standalone.html` in a browser
-2. Click "Start Managing Your Portfolio" 
-3. Try the investment-focused sample questions
-4. Experience the professional investment assistant interface
+2. Click "Start Managing Your Portfolio"
+3. Use the chatbot for investment questions and insights
+4. Join the waitlist for early access
 
-## 🔧 **Configuration**
+## Configuration
+Set up your `.env` file with:
+- `OPENROUTER_API_KEY`
+- `NOTION_TOKEN`
+- `NOTION_DATABASE_ID_WAITLIST`
 
-Ensure your `.env` file contains:
-- `OPENROUTER_API_KEY`: Your OpenRouter API key
-- `NOTION_TOKEN`: Your Notion integration token  
-- `NOTION_DATABASE_ID_WAITLIST`: Your Notion database ID
-
-The system automatically detects context and switches between marketing and investment assistant modes based on the `context` parameter sent to the API.
-
-## ✨ Recent UI/UX & Functional Enhancements (2024)
-
-- **Logo & Theme Adaptation**: Logo now adapts to dark/light themes, switching between black and white versions as per the Charte Graphique Bubble.md.
-- **Button Color & Style**: All CTA and quick shortcut buttons now use the correct violet/purple gradient and gray shades, matching the brand palette. Blue buttons were removed.
-- **Iconography**: All sidebar, settings, and welcome tile emojis replaced with consistent, brand-aligned SVG icons (no subtext, no background, uniform sizing).
-- **Welcome Tile**: Feature icons in the welcome tile are now SVGs, sized and centered for legibility and consistency.
-- **Quick Shortcuts**: Performance replaced by "Stock ETFs" and "Debt ETFs"; "Trades" replaced by "Leverage"; new "Real Estate" button added. All shortcuts use correct translations (EN/FR) and brand colors.
-- **Suggestion Tiles**: Sample questions now appear as 4 rounded, centered tiles, matching a modern fintech look.
-- **Main Chatbot Question**: Added a large, bold, purple-gradient "Hello," headline above the shortcuts, with the rest in black, for a welcoming and tech-inspired feel.
-- **Input & Submit Button**: The chat input and submit button are now more rounded and visually prominent, matching the new design language.
-- **Responsiveness**: All new elements and layouts are fully responsive and mobile-friendly.
-- **Strict Brand Compliance**: All changes strictly follow the Charte Graphique Bubble.md for colors, typography, spacing, and iconography.
-- **No Functional Changes**: All chatbot logic, content, and features remain unchanged—only the UI/UX and translations were improved.
+---
+For more on our mission and philosophy, see the [Charte Graphique Bubble.md](Charte%20Graphique%20Bubble.md) and [mission_texte.txt](mission_texte.txt).
