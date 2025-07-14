@@ -73,3 +73,17 @@ Ensure your `.env` file contains:
 - `NOTION_DATABASE_ID_WAITLIST`: Your Notion database ID
 
 The system automatically detects context and switches between marketing and investment assistant modes based on the `context` parameter sent to the API.
+
+## ✨ Recent UI/UX & Functional Enhancements (2024)
+
+- **Logo & Theme Adaptation**: Logo now adapts to dark/light themes, switching between black and white versions as per the Charte Graphique Bubble.md.
+- **Button Color & Style**: All CTA and quick shortcut buttons now use the correct violet/purple gradient and gray shades, matching the brand palette. Blue buttons were removed.
+- **Iconography**: All sidebar, settings, and welcome tile emojis replaced with consistent, brand-aligned SVG icons (no subtext, no background, uniform sizing).
+- **Welcome Tile**: Feature icons in the welcome tile are now SVGs, sized and centered for legibility and consistency.
+- **Quick Shortcuts**: Performance replaced by "Stock ETFs" and "Debt ETFs"; "Trades" replaced by "Leverage"; new "Real Estate" button added. All shortcuts use correct translations (EN/FR) and brand colors.
+- **Suggestion Tiles**: Sample questions now appear as 4 rounded, centered tiles, matching a modern fintech look.
+- **Main Chatbot Question**: Added a large, bold, purple-gradient "Hello," headline above the shortcuts, with the rest in black, for a welcoming and tech-inspired feel.
+- **Input & Submit Button**: The chat input and submit button are now more rounded and visually prominent, matching the new design language.
+- **Responsiveness**: All new elements and layouts are fully responsive and mobile-friendly.
+- **Strict Brand Compliance**: All changes strictly follow the Charte Graphique Bubble.md for colors, typography, spacing, and iconography.
+- **No Functional Changes**: All chatbot logic, content, and features remain unchanged—only the UI/UX and translations were improved.

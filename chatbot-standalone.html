@@ -133,53 +133,47 @@
 
       <!-- Enhanced Chat Container -->
       <section class="chatbot-chat-container" id="chatbot-chat-container" style="display:none;">
-        <!-- Chat Messages Area -->
-        <div class="chatbot-message-list" id="chatbot-message-list">
-          <!-- Messages will be populated by JavaScript -->
+        <div class="chatbot-main-question">
+          <span class="main-question-hello">Hello,</span> <span class="main-question-rest">how can I help you today?</span>
         </div>
-        
-        <!-- Enhanced Input Area -->
-        <div class="chatbot-input-area">
-          <!-- Investment-focused suggestions -->
-          <div class="chatbot-suggestions" id="chatbot-suggestions">
-            <!-- Suggestion buttons will be populated by JavaScript -->
-          </div>
-          
-          <div class="chatbot-input-row">
-            <div class="input-container">
-              <input 
-                type="text" 
-                class="chatbot-input" 
-                id="chatbot-input" 
-                placeholder="Ask about your portfolio performance..." 
-                data-translate="chat.placeholder" 
-                aria-label="Ask about your investments" 
-                autocomplete="off" 
-              />
-              <div class="input-status">
-                <span class="typing-indicator" style="display: none;">
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </span>
-              </div>
-            </div>
-            <button class="chatbot-send-btn" id="chatbot-send-btn" aria-label="Send">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5 10L12 3L19 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M12 21V4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              </svg>
-            </button>
-          </div>
-          
-          <!-- Quick Action Shortcuts -->
+        <div class="chatbot-quick-shortcuts-row">
           <div class="quick-shortcuts">
             <button class="shortcut-btn" data-query="Show me my stock ETF positions" data-translate="chat.shortcut.stockEtfs">📈 Stock ETFs</button>
             <button class="shortcut-btn" data-query="Show me my debt ETF positions" data-translate="chat.shortcut.debtEtfs">💵 Debt ETFs</button>
             <button class="shortcut-btn" data-query="Show me my Bitcoin position" id="crypto-shortcut">₿ Cryptos</button>
             <button class="shortcut-btn" data-query="What's my cash balance?">💰 Cash</button>
-            <button class="shortcut-btn" data-query="Show me my leverage">📊 Leverage</button>
+            <button class="shortcut-btn" data-query="Show me my leverage">�� Leverage</button>
+            <button class="shortcut-btn" data-query="Show me my real estate positions" data-translate="chat.shortcut.realEstate">🏠 Real Estate</button>
           </div>
+        </div>
+        <div class="chatbot-suggestions-tiles" id="chatbot-suggestions-tiles">
+          <!-- Suggestion buttons will be populated by JavaScript, or move from chatbot-suggestions -->
+        </div>
+        <div class="chatbot-input-row chatbot-input-row-rounded">
+          <div class="input-container">
+            <input 
+              type="text" 
+              class="chatbot-input chatbot-input-rounded" 
+              id="chatbot-input" 
+              placeholder="Ask about your portfolio performance..." 
+              data-translate="chat.placeholder" 
+              aria-label="Ask about your investments" 
+              autocomplete="off" 
+            />
+            <div class="input-status">
+              <span class="typing-indicator" style="display: none;">
+                <span></span>
+                <span></span>
+                <span></span>
+              </span>
+            </div>
+          </div>
+          <button class="chatbot-send-btn chatbot-send-btn-rounded" id="chatbot-send-btn" aria-label="Send">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5 10L12 3L19 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M12 21V4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
         </div>
       </section>
     </main>

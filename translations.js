@@ -168,6 +168,10 @@ const translations = {
     en: "Leverage",
     fr: "Levier"
   },
+  "chat.shortcut.realEstate": {
+    en: "Real Estate",
+    fr: "Immobilier"
+  },
 
   // Waitlist Section
   "waitlist.title": {
