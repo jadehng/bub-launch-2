@@ -351,4 +351,40 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Start with placeholder animation
   startPlaceholderAnimation();
+
+  // Theme switching logic for logo color
+  function updateLogoForTheme() {
+    const isDark = document.body.classList.contains('dark-theme');
+    const mainLogo = document.getElementById('main-logo');
+    const welcomeLogo = document.getElementById('welcome-logo');
+    if (mainLogo) mainLogo.src = isDark ? 'bubble-logo-single copy.svg' : 'bubble-logo-single.svg';
+    if (welcomeLogo) welcomeLogo.src = isDark ? 'bubble-logo-single copy.svg' : 'bubble-logo-single.svg';
+  }
+
+  // Listen for theme changes (assuming a button toggles 'dark-theme' class on body)
+  const themeBtn = Array.from(document.querySelectorAll('.setting-item')).find(btn => btn.textContent.includes('Theme'));
+  if (themeBtn) {
+    themeBtn.addEventListener('click', () => {
+      document.body.classList.toggle('dark-theme');
+      updateLogoForTheme();
+    });
+  }
+  updateLogoForTheme();
+
+  // Update subtitle translation
+  const subtitle = document.getElementById('chatbot-subtitle');
+  if (subtitle && translations['hero.tagline']) {
+    subtitle.textContent = translations['hero.tagline'][currentLanguage] || translations['hero.tagline']['en'];
+  }
+
+  // Ensure 'nouvelle conversation' button triggers new chat
+  if (newChatBtn) {
+    newChatBtn.addEventListener('click', createNewChat);
+  }
+  // Update crypto shortcut button label
+  const cryptoShortcut = document.getElementById('crypto-shortcut');
+  if (cryptoShortcut) {
+    cryptoShortcut.textContent = '💱 Cryptos';
+    cryptoShortcut.setAttribute('data-query', 'Show me my crypto positions');
+  }
 });

@@ -763,3 +763,23 @@ body {
     gap: 1rem;
   }
 }
+
+/* Violet/Purple Button for Waitlist and CTA (from waitlist chart area) */
+.btn-violet {
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  color: #fff !important;
+  border: none;
+  box-shadow: 0 4px 12px rgba(118, 75, 162, 0.15);
+}
+.btn-violet:hover {
+  background: linear-gradient(135deg, #6b47a3 0%, #5a60ea 100%);
+}
+
+/* Make logo larger and without background for header and welcome */
+.chatbot-logo, .welcome-logo {
+  height: 3.5rem !important;
+  width: auto;
+  background: none !important;
+  padding: 0;
+  box-shadow: none;
+}

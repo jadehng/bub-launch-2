@@ -15,8 +15,9 @@
   <header class="chatbot-header">
     <div class="header-left">
       <div class="brand">
-        <img src="bubble-logo-single.svg" alt="Bubble Logo" class="chatbot-logo" />
+        <img src="bubble-logo-single.svg" alt="Bubble Logo" class="chatbot-logo" id="main-logo" />
         <span class="chatbot-title">Bubble AI</span>
+        <span class="chatbot-subtitle" id="chatbot-subtitle" data-translate="hero.tagline" style="font-style:italic;margin-left:1rem;"></span>
       </div>
     </div>
     
@@ -37,7 +38,7 @@
       </div>
       
       <div class="action-buttons">
-        <button class="btn-accent" id="join-waitlist-btn" data-translate="header.joinWaitlist">Join Waitlist</button>
+        <button class="btn-accent btn-violet" id="join-waitlist-btn" data-translate="header.joinWaitlist">Join Waitlist</button>
         <button class="btn-outline" id="learn-more-btn" data-translate="header.learnMore">Learn More</button>
       </div>
     </div>
@@ -49,7 +50,7 @@
       <div class="sidebar-section chatbot-history">
         <div class="section-header">
           <h3 data-translate="sidebar.history">Chat History</h3>
-          <button id="new-chat-btn" class="btn-new-chat" data-translate="sidebar.newChat">+ New Chat</button>
+          <button id="new-chat-btn" class="btn-new-chat btn-violet" data-translate="sidebar.newChat">+ New Chat</button>
         </div>
         <div id="chatbot-history-list" class="history-list">
           <!-- History items will be populated by JavaScript -->
@@ -105,7 +106,7 @@
       <section class="chatbot-welcome" id="chatbot-welcome">
         <div class="welcome-content">
           <div class="welcome-icon">
-            <img src="bubble-logo-single.svg" alt="Bubble AI" class="welcome-logo" />
+            <img src="bubble-logo-single.svg" alt="Bubble AI" class="welcome-logo" id="welcome-logo" />
           </div>
           <h2 data-translate="chatbot.welcome.title">Welcome to Your AI Investment Assistant</h2>
           <p data-translate="chatbot.welcome.description">
@@ -126,7 +127,7 @@
               <span>Secure & Private</span>
             </div>
           </div>
-          <button id="start-chat-btn" class="chatbot-start-btn" data-translate="chatbot.welcome.start">Start Managing Your Portfolio</button>
+          <button id="start-chat-btn" class="chatbot-start-btn btn-violet" data-translate="chatbot.welcome.start">Start Managing Your Portfolio</button>
         </div>
       </section>
 
@@ -174,7 +175,7 @@
           <!-- Quick Action Shortcuts -->
           <div class="quick-shortcuts">
             <button class="shortcut-btn" data-query="What's my portfolio performance today?">📊 Performance</button>
-            <button class="shortcut-btn" data-query="Show me my Bitcoin position">₿ Bitcoin</button>
+            <button class="shortcut-btn" data-query="Show me my Bitcoin position" id="crypto-shortcut">₿ Cryptos</button>
             <button class="shortcut-btn" data-query="What's my cash balance?">💰 Cash</button>
             <button class="shortcut-btn" data-query="Any recent trades?">📈 Trades</button>
           </div>
