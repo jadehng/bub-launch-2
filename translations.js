@@ -156,6 +156,18 @@ const translations = {
     en: "Ask us why AI is a game-changer...",
     fr: "Demandez-nous pourquoi l'IA change la donne..."
   },
+  "chat.shortcut.stockEtfs": {
+    en: "Stock ETFs",
+    fr: "ETFs actions"
+  },
+  "chat.shortcut.debtEtfs": {
+    en: "Debt ETFs",
+    fr: "ETFs obligations"
+  },
+  "chat.shortcut.leverage": {
+    en: "Leverage",
+    fr: "Levier"
+  },
 
   // Waitlist Section
   "waitlist.title": {
