@@ -315,6 +315,106 @@ const translations = {
     fr: "Conçu pour nous-mêmes, Bubble combine des stratégies professionnelles, comme la parité des risques, avec une transparence totale.",
   },
 
+  // Investment-focused chat questions (THESE WERE MISSING!)
+  "chat.question1": {
+    en: "What's my portfolio performance today?",
+    fr: "Quelle est la performance de mon portefeuille aujourd'hui ?"
+  },
+  "chat.question2": {
+    en: "Show me my Bitcoin position",
+    fr: "Montre-moi ma position Bitcoin"
+  },
+  "chat.question3": {
+    en: "What trades did you execute this week?",
+    fr: "Quelles transactions avez-vous exécutées cette semaine ?"
+  },
+  "chat.question4": {
+    en: "What's my current cash balance?",
+    fr: "Quel est mon solde de trésorerie actuel ?"
+  },
+  "chat.question5": {
+    en: "How is my risk exposure looking?",
+    fr: "Comment se présente mon exposition au risque ?"
+  },
+  "chat.question6": {
+    en: "Any important market news affecting my holdings?",
+    fr: "Des nouvelles importantes du marché affectant mes positions ?"
+  },
+
+  // Animated placeholder text for input
+  "chat.placeholder.rotating": {
+    en: [
+      "Ask about your portfolio performance...",
+      "Check your ETH position...", 
+      "Review today's market moves...",
+      "What's my leverage ratio?",
+      "Show me recent transactions..."
+    ],
+    fr: [
+      "Demandez la performance de votre portefeuille...",
+      "Vérifiez votre position ETH...",
+      "Consultez les mouvements du marché...",
+      "Quel est mon ratio de levier ?",
+      "Montrez-moi les transactions récentes..."
+    ]
+  },
+
+  // Sidebar sections
+  "sidebar.history": {
+    en: "Chat History",
+    fr: "Historique des conversations"
+  },
+  "sidebar.portfolio": {
+    en: "Portfolio Overview",
+    fr: "Aperçu du portefeuille"
+  },
+  "sidebar.newChat": {
+    en: "New Chat",
+    fr: "Nouvelle conversation"
+  },
+
+  // Header buttons
+  "header.signIn": {
+    en: "Sign In",
+    fr: "Se connecter"
+  },
+  "header.login": {
+    en: "Log In", 
+    fr: "Connexion"
+  },
+  "header.joinWaitlist": {
+    en: "Join Waitlist",
+    fr: "Rejoindre la liste d'attente"
+  },
+  "header.learnMore": {
+    en: "Learn More",
+    fr: "En savoir plus"
+  },
+
+  // Chatbot welcome messages
+  "chatbot.welcome.title": {
+    en: "Welcome to Your AI Investment Assistant",
+    fr: "Bienvenue dans Votre Assistant IA d'Investissement"
+  },
+  "chatbot.welcome.description": {
+    en: "I'm your personal AI portfolio manager. Ask me about your investments, recent trades, market positions, or any questions about your financial portfolio.",
+    fr: "Je suis votre gestionnaire de portefeuille IA personnel. Posez-moi des questions sur vos investissements, transactions récentes, positions de marché, ou toute question sur votre portefeuille financier."
+  },
+  "chatbot.welcome.start": {
+    en: "Start Managing Your Portfolio",
+    fr: "Commencer à Gérer Votre Portefeuille"
+  },
+
+  // Sidebar sections for chatbot
+  "chatbot.sidebar.quickactions": {
+    en: "Quick Actions",
+    fr: "Actions Rapides"
+  },
+  "chatbot.sidebar.settings": {
+    en: "Settings",
+    fr: "Paramètres"
+  },
+
   // Footer
   "footer.copyright": {
     en: "© 2025 Bubble. Transparent by design.",

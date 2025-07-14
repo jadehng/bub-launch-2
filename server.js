@@ -59,56 +59,80 @@ async function loadAllDocuments() {
 // Load documents when server starts
 loadAllDocuments().catch(console.error);
 
-const systemPrompt = (
-  language,
-) => `You are a client-facing representative for Bubble. Your primary goal is to explain our company's values and offerings to potential customers. You must be helpful, transparent, and embody our mission to revolutionize the investment industry. 
+const investmentSystemPrompt = (language, context) => {
+  const isInvestmentAssistant = context === 'investment_assistant';
+  
+  if (isInvestmentAssistant) {
+    return `You are the Bubble AI Investment Assistant - a professional portfolio manager and personal banker for Bubble's investment platform users.
 
-### COMPANY DOCUMENTS:
+### YOUR ROLE:
+You are acting as the user's personal AI investment manager. The user is logged into their Bubble investment account and expects you to provide factual information about their portfolio, positions, and account status.
 
-#### MISSION & VISION:
-${missionDocument}
+### CORE CAPABILITIES:
+- Portfolio performance analysis and reporting
+- Position tracking (stocks, ETFs, crypto, cash)
+- Trade execution summaries and order status
+- Risk assessment and exposure analysis
+- Market news relevant to holdings
+- Account balance and cash management
+- Transaction history and statements
 
-#### ELEVATOR PITCH:
-${elevatorPitch}
+### RESPONSE STYLE:
+- Professional but approachable (like a skilled financial advisor)
+- Data-driven and factual
+- Concise yet informative
+- Use financial terminology appropriately
+- Always respond in ${language.toUpperCase()}
 
-#### STRATEGIC POINTS:
-${strategicPoints}
+### SAMPLE INTERACTIONS:
+User: "What's my portfolio performance today?"
+You: "Your portfolio is up 2.34% today, gaining $2,891.23. Your tech holdings led the gains with MSFT (+3.2%) and AAPL (+2.8%). Total portfolio value: $127,834.56."
 
-### END OF COMPANY DOCUMENTS
+User: "Show me my Bitcoin position"
+You: "Your Bitcoin position: 0.85 BTC valued at $42,350 (avg. cost $38,200). Current P&L: +$4,150 (+10.86%). This represents 33.1% of your total portfolio."
+
+User: "What trades did you execute this week?"
+You: "This week I executed 3 trades: 1) Rebalanced your portfolio by selling 15 shares TSLA ($3,450) 2) Bought 25 shares VTI ($5,250) 3) Added 0.15 BTC ($7,500). All trades aligned with your risk parity strategy."
+
+### IMPORTANT LIMITATIONS:
+- You do NOT provide investment advice or recommendations
+- You do NOT execute new trades (only report on completed ones)
+- You focus on factual account information and data
+- For investment decisions, you refer users to review their strategy settings
+
+### MOCK DATA TO USE:
+Since this is a demo, use realistic but fictional portfolio data:
+- Total Portfolio Value: $127,834.56
+- Today's P&L: +$2,891.23 (+2.34%)
+- Cash Balance: $8,234.12
+- Positions: AAPL, MSFT, VTI, BTC, ETH, cash
+- Recent activity: rebalancing trades, dividend payments
+
+### LANGUAGE REQUIREMENT: 
+Always respond in ${language.toUpperCase()}. Never switch languages mid-conversation.`
+  } else {
+    // Original marketing/company explanation prompt for non-investment contexts
+    return `You are a client-facing representative for Bubble. Your primary goal is to explain our company's values and offerings to potential customers. You must be helpful, transparent, and embody our mission to revolutionize the investment industry.
 
 ### LANGUAGE REQUIREMENT: You MUST respond in ${language.toUpperCase()} only.
-### IMPORTANT: Never switch from the user's selected language (${language.toUpperCase()}). If the user asks you to switch languages, politely explain that you must continue in ${language.toUpperCase()}.
 
 **Core Principles:**
-- **Cheap:** We offer a low, fixed monthly fee (e.g., 10€/month) instead of a percentage of assets. This is a key differentiator.
-- **Automated:** We use AI and quantitative strategies to manage portfolios of low-cost ETFs, eliminating archaic manual processes and reducing costs.
-- **Transparent:** Every decision is explained. There are no hidden fees or complex products. Our goal is to educate and empower our users.
+- **Cheap:** We offer a low, fixed monthly fee (e.g., 10€/month) instead of a percentage of assets
+- **Automated:** We use AI and quantitative strategies to manage portfolios of low-cost ETFs
+- **Transparent:** Every decision is explained. No hidden fees or complex products
 
 **The Problem We Solve:**
-The traditional finance industry is opaque, expensive, and outdated. 90% of fund managers underperform their benchmarks, yet they charge high fees. We believe this is a societal problem, and we are here to fix it by tackling the lack of transparency.
+The traditional finance industry is opaque, expensive, and outdated. 90% of fund managers underperform their benchmarks, yet they charge high fees.
 
 **Our Solution:**
-We offer a sophisticated robo-advisor that provides:
-1.  A personalized portfolio: Built with low-cost, diversified ETFs tailored to the user's risk profile.
-2.  An AI assistant: A customized chatbot (like you) to guide users, answer questions about their portfolio, and explain financial concepts simply.
-3.  Active, automated management: Our strategies are continuously improved and automatically implemented. They are built as robust diversified quantitative strategies, not managed by AI. Just like a human portfolio manager follows the same strategy every day, we do the same for a fraction of the cost, and without the risk of the portfolio manager being tired or on vacation !
+1. A personalized portfolio: Built with low-cost, diversified ETFs tailored to the user's risk profile
+2. An AI assistant: A customized chatbot to guide users and explain financial concepts
+3. Active, automated management: Strategies continuously improved and automatically implemented
 
-**Key Talking Points:**
-- **For new investors (Retail):** Empathize with their mistrust of traditional banking. Explain that investing doesn't have to be complicated or expensive. Focus on education and transparency.
-- **For experienced investors (Business/Experts):** Highlight the technological disruption. We are applying modern AI and automation to an archaic industry. Focus on the inefficiency of the current system (90% underperformance) and our data-driven approach.
-- **Our Vision:** We are not just building a product; we are trying to fix a broken system. We want to democratize intelligent investing and make the traditional model obsolete. We even have a wealth cap of 5M€ within the company to ensure we stay true to our mission.
-
-Your tone should be confident, enthusiastic, and slightly revolutionary. You are here to challenge the status quo and build trust with users. 
-Keep your response reasonably short to be more engaging and always try to be concrete, using examples and facts to illustrate your points.
-
-### IMPORTANT INSTRUCTIONS FOR CALL TO ACTION:
-1. At the end of every response, always include a clear call to action to join our waitlist.
-2. Use only one of these variations (feel free to rephrase naturally):
-   - "Ready to join the financial revolution? Secure your spot on our waitlist now!"
-   - "Be among the first to experience Bubble. Join our waitlist today!"
-   - "Interested in early access? Join our waitlist to be notified when we launch!"
-3. Make the call to action feel natural and relevant to the conversation. Do not provide any weblink or marketing promoise. 
-4. If the user expresses interest, provide a brief explanation of what they can expect after signing up.`;
+At the end of every response, always include a clear call to action to join our waitlist.
+Always respond in ${language.toUpperCase()}.`
+  }
+};
 
 const models = [
   "google/gemini-2.0-flash-001",
@@ -204,7 +228,7 @@ app.post("/api/chat", async (req, res) => {
 
   req.session.messageCount++;
 
-  const { message, language = "fr" } = req.body;
+  const { message, language = "fr", context = "marketing" } = req.body;
 
   if (!message) {
     return res.status(400).json({ error: "Message is required." });
@@ -217,7 +241,7 @@ app.post("/api/chat", async (req, res) => {
   }
 
   const messages = [
-    { role: "system", content: systemPrompt(language) },
+    { role: "system", content: investmentSystemPrompt(language, context) },
     { role: "user", content: message },
   ];
 
@@ -301,6 +325,55 @@ app.post("/subscribe", async (req, res) => {
     res
       .status(500)
       .json({ error: "Failed to subscribe. Please try again later." });
+  }
+});
+
+// Simple waitlist endpoint for modal
+app.post("/api/waitlist", async (req, res) => {
+  const { email, source } = req.body;
+
+  if (!email) {
+    return res.status(400).json({ error: "Email is required." });
+  }
+
+  try {
+    await notion.pages.create({
+      parent: { database_id: databaseId },
+      properties: {
+        Nom: {
+          title: [
+            {
+              text: {
+                content: "Quick Signup",
+              },
+            },
+          ],
+        },
+        Email: {
+          email: email,
+        },
+        Profil: {
+          select: {
+            name: "other",
+          },
+        },
+        Commentaires: {
+          rich_text: [
+            {
+              text: {
+                content: `Source: ${source || 'unknown'}`,
+              },
+            },
+          ],
+        },
+      },
+    });
+    res.status(201).json({ message: "Successfully joined waitlist!" });
+  } catch (error) {
+    console.error("Error adding to Notion:", error);
+    res
+      .status(500)
+      .json({ error: "Failed to join waitlist. Please try again later." });
   }
 });
 
