@@ -446,4 +446,86 @@ const translations = {
     en: "Have questions? Chat with our AI",
     fr: "Des questions ? Discutez avec notre IA"
   },
+
+  // NEW TRANSLATIONS FOR MISSING TEXT
+  "chatbot.welcome.hello": {
+    en: "Hello,",
+    fr: "Bonjour,"
+  },
+  "chatbot.welcome.help": {
+    en: "how can I help you today?",
+    fr: "comment puis-je vous aider aujourd'hui ?"
+  },
+  "chatbot.feature.realtime": {
+    en: "Real-time Portfolio Analysis",
+    fr: "Analyse de Portefeuille en Temps Réel"
+  },
+  "chatbot.feature.ai": {
+    en: "AI-Powered Insights",
+    fr: "Analyses Propulsées par l'IA"
+  },
+  "chatbot.feature.secure": {
+    en: "Secure & Private",
+    fr: "Sécurisé et Privé"
+  },
+  "chatbot.shortcut.cryptos": {
+    en: "Cryptos",
+    fr: "Cryptos"
+  },
+  "chatbot.shortcut.cash": {
+    en: "Cash",
+    fr: "Trésorerie"
+  },
+  "chatbot.shortcut.leverage": {
+    en: "Leverage",
+    fr: "Levier"
+  },
+  "chatbot.portfolio.cash": {
+    en: "Cash",
+    fr: "Trésorerie"
+  },
+  "chatbot.portfolio.totalValue": {
+    en: "Total Value",
+    fr: "Valeur Totale"
+  },
+  "chatbot.portfolio.todaysPL": {
+    en: "Today's P&L",
+    fr: "P&L du Jour"
+  },
+  "chatbot.quickaction.portfolio": {
+    en: "Portfolio Summary",
+    fr: "Résumé du Portefeuille"
+  },
+  "chatbot.quickaction.balance": {
+    en: "Check Balance",
+    fr: "Vérifier le Solde"
+  },
+  "chatbot.quickaction.trades": {
+    en: "Recent Trades",
+    fr: "Transactions Récentes"
+  },
+  "chatbot.quickaction.alerts": {
+    en: "Alerts",
+    fr: "Alertes"
+  },
+  "chatbot.setting.notifications": {
+    en: "Notifications",
+    fr: "Notifications"
+  },
+  "chatbot.setting.theme": {
+    en: "Theme",
+    fr: "Thème"
+  },
+  "chatbot.setting.privacy": {
+    en: "Privacy",
+    fr: "Confidentialité"
+  },
+  "chatbot.modal.title": {
+    en: "Join the Bubble Waitlist",
+    fr: "Rejoindre la Liste d'Attente Bubble"
+  },
+  "chatbot.modal.description": {
+    en: "Get early access to Bubble's AI investment platform.",
+    fr: "Obtenez un accès anticipé à la plateforme d'investissement IA de Bubble."
+  }
 };

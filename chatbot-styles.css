@@ -66,12 +66,32 @@ body {
 }
 
 .chatbot-logo {
-  height: 2.5rem;
+  height: 3rem;
   width: auto;
   border-radius: 50%;
   background: var(--surface);
   padding: 0.25rem;
   box-shadow: var(--shadow-sm);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.chatbot-logo:hover {
+  transform: scale(1.1);
+  box-shadow: var(--shadow-lg);
+  animation: bubblePop 0.6s ease-out;
+}
+
+@keyframes bubblePop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1.1);
+  }
 }
 
 .chatbot-title {
