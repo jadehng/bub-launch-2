@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strategy Builder - Systematic Trading Platform</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header h1 {
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 300;
+        }
+
+        .header .subtitle {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+        }
+
+        .main-container {
+            flex: 1;
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            gap: 1rem;
+            padding: 1rem;
+        }
+
+        .chat-panel {
+            flex: 1;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .analytics-panel {
+            flex: 1.2;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 1rem 1.5rem;
+            font-weight: 500;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            background: #f8f9fa;
+        }
+
+        .message {
+            margin-bottom: 1rem;
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .message-content {
+            max-width: 70%;
+            padding: 0.75rem 1rem;
+            border-radius: 18px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .message.bot .message-content {
+            background: white;
+            color: #2c3e50;
+            border: 1px solid #e1e8ed;
+            border-radius: 18px 18px 18px 4px;
+        }
+
+        .message.user .message-content {
+            background: #3498db;
+            color: white;
+            border-radius: 18px 18px 4px 18px;
+        }
+
+        .message-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 500;
+            flex-shrink: 0;
+        }
+
+        .message.bot .message-avatar {
+            background: #3498db;
+            color: white;
+        }
+
+        .message.user .message-avatar {
+            background: #2c3e50;
+            color: white;
+        }
+
+        .chat-input {
+            padding: 1rem;
+            border-top: 1px solid #e1e8ed;
+            background: white;
+        }
+
+        .input-container {
+            display: flex;
+            gap: 0.5rem;
+            align-items: flex-end;
+        }
+
+        .chat-input textarea {
+            flex: 1;
+            border: 1px solid #e1e8ed;
+            border-radius: 20px;
+            padding: 0.75rem 1rem;
+            font-size: 0.9rem;
+            resize: none;
+            min-height: 40px;
+            max-height: 120px;
+            font-family: inherit;
+        }
+
+        .chat-input textarea:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        .send-button {
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: background 0.2s;
+        }
+
+        .send-button:hover {
+            background: #2980b9;
+        }
+
+        .send-button:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+        }
+
+        .strategy-card {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 0.5rem 0;
+        }
+
+        .strategy-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .strategy-pillars {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .pillar {
+            background: white;
+            padding: 0.5rem;
+            border-radius: 6px;
+            border: 1px solid #e1e8ed;
+            text-align: center;
+            font-size: 0.8rem;
+        }
+
+        .pillar-title {
+            font-weight: 600;
+            color: #3498db;
+            margin-bottom: 0.25rem;
+        }
+
+        .chart-container {
+            margin: 1rem 0;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e1e8ed;
+            overflow: hidden;
+        }
+
+        .chart-header {
+            background: #f8f9fa;
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #e1e8ed;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        .chart-content {
+            padding: 1rem;
+            height: 300px;
+            position: relative;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .metric-card {
+            background: white;
+            border: 1px solid #e1e8ed;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .metric-label {
+            font-size: 0.8rem;
+            color: #6c757d;
+            margin-top: 0.25rem;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+
+        .status-building {
+            background: #f39c12;
+            animation: pulse 2s infinite;
+        }
+
+        .status-ready {
+            background: #27ae60;
+        }
+
+        .status-error {
+            background: #e74c3c;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .quick-action {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 20px;
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .quick-action:hover {
+            background: #e9ecef;
+            border-color: #adb5bd;
+        }
+
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            color: #6c757d;
+            font-size: 0.8rem;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 0.2rem;
+        }
+
+        .typing-dot {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: #6c757d;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-10px); }
+        }
+
+        .code-block {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+        }
+
+        .portfolio-summary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .portfolio-value {
+            font-size: 2rem;
+            font-weight: 300;
+            margin-bottom: 0.5rem;
+        }
+
+        .portfolio-change {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Systematic Trading Strategy Builder</h1>
+        <p class="subtitle">Natural language strategy development with automated backtesting</p>
+    </div>
+
+    <div class="main-container">
+        <div class="chat-panel">
+            <div class="chat-header">
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span class="status-indicator status-ready"></span>
+                    Strategy Development Assistant
+                </div>
+            </div>
+            
+            <div class="chat-messages" id="chatMessages">
+                <div class="message bot">
+                    <div class="message-avatar">AI</div>
+                    <div class="message-content">
+                        Welcome to the Strategy Builder! I'll help you create systematic trading strategies using natural language. 
+                        <br><br>
+                        Describe your strategy idea and I'll help you build it across three pillars:
+                        <br>
+                        🎯 <strong>Universe Selection</strong> - Which assets to trade<br>
+                        📊 <strong>Signals & Indicators</strong> - When to enter/exit<br>
+                        💰 <strong>Position Sizing</strong> - How much to allocate
+                        <br><br>
+                        Try saying something like: "I want to trade momentum stocks in the S&P 500 using RSI and moving averages"
+                    </div>
+                </div>
+            </div>
+
+            <div class="quick-actions">
+                <div class="quick-action" onclick="sendQuickMessage('Mean reversion strategy on tech stocks')">📈 Mean Reversion</div>
+                <div class="quick-action" onclick="sendQuickMessage('Momentum strategy with breakouts')">🚀 Momentum</div>
+                <div class="quick-action" onclick="sendQuickMessage('Pairs trading on correlated assets')">🔗 Pairs Trading</div>
+                <div class="quick-action" onclick="sendQuickMessage('Show my current strategies')">📊 View Strategies</div>
+            </div>
+
+            <div class="chat-input">
+                <div class="input-container">
+                    <textarea 
+                        id="messageInput" 
+                        placeholder="Describe your trading strategy idea..."
+                        rows="1"
+                        onkeypress="handleKeyPress(event)"
+                        oninput="adjustTextareaHeight(this)"
+                    ></textarea>
+                    <button class="send-button" onclick="sendMessage()" id="sendButton">
+                        ➤
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="analytics-panel">
+            <div class="portfolio-summary">
+                <div class="portfolio-value">$247,350</div>
+                <div class="portfolio-change">+$12,450 (+5.3%) this month</div>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-header">Portfolio Performance</div>
+                <div class="chart-content">
+                    <canvas id="portfolioChart"></canvas>
+                </div>
+            </div>
+
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value">15.2%</div>
+                    <div class="metric-label">Annual Return</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">0.89</div>
+                    <div class="metric-label">Sharpe Ratio</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">-8.3%</div>
+                    <div class="metric-label">Max Drawdown</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">3</div>
+                    <div class="metric-label">Active Strategies</div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-header">Strategy Allocation</div>
+                <div class="chart-content">
+                    <canvas id="allocationChart"></canvas>
+                </div>
+            </div>
+
+            <div id="strategiesContainer">
+                <div class="strategy-card">
+                    <div class="strategy-title">
+                        <span class="status-indicator status-ready"></span>
+                        Tech Momentum Strategy
+                    </div>
+                    <div style="font-size: 0.9rem; color: #6c757d; margin-bottom: 0.5rem;">
+                        Active | 35% allocation | +8.2% this month
+                    </div>
+                    <div class="strategy-pillars">
+                        <div class="pillar">
+                            <div class="pillar-title">Universe</div>
+                            <div>QQQ top 100</div>
+                        </div>
+                        <div class="pillar">
+                            <div class="pillar-title">Signals</div>
+                            <div>RSI + MA crossover</div>
+                        </div>
+                        <div class="pillar">
+                            <div class="pillar-title">Sizing</div>
+                            <div>Risk parity</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="strategy-card">
+                    <div class="strategy-title">
+                        <span class="status-indicator status-ready"></span>
+                        Mean Reversion Pairs
+                    </div>
+                    <div style="font-size: 0.9rem; color: #6c757d; margin-bottom: 0.5rem;">
+                        Active | 40% allocation | +3.1% this month
+                    </div>
+                    <div class="strategy-pillars">
+                        <div class="pillar">
+                            <div class="pillar-title">Universe</div>
+                            <div>Sector pairs</div>
+                        </div>
+                        <div class="pillar">
+                            <div class="pillar-title">Signals</div>
+                            <div>Z-score deviation</div>
+                        </div>
+                        <div class="pillar">
+                            <div class="pillar-title">Sizing</div>
+                            <div>Kelly criterion</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="strategy-card">
+                    <div class="strategy-title">
+                        <span class="status-indicator status-building"></span>
+                        Value Rotation Strategy
+                    </div>
+                    <div style="font-size: 0.9rem; color: #6c757d; margin-bottom: 0.5rem;">
+                        Building | 25% target allocation
+                    </div>
+                    <div class="strategy-pillars">
+                        <div class="pillar">
+                            <div class="pillar-title">Universe</div>
+                            <div>Building...</div>
+                        </div>
+                        <div class="pillar">
+                            <div class="pillar-title">Signals</div>
+                            <div>P/E + momentum</div>
+                        </div>
+                        <div class="pillar">
+                            <div class="pillar-title">Sizing</div>
+                            <div>Vol targeting</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize charts
+        const portfolioCtx = document.getElementById('portfolioChart').getContext('2d');
+        const allocationCtx = document.getElementById('allocationChart').getContext('2d');
+
+        // Portfolio performance chart
+        const portfolioChart = new Chart(portfolioCtx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Portfolio Value',
+                    data: [200000, 215000, 208000, 225000, 240000, 247350],
+                    borderColor: '#3498db',
+                    backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        ticks: {
+                            callback: function(value) {
+                                return '$' + value.toLocaleString();
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+
+        // Strategy allocation chart
+        const allocationChart = new Chart(allocationCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Tech Momentum', 'Mean Reversion', 'Value Rotation', 'Cash'],
+                datasets: [{
+                    data: [35, 40, 0, 25],
+                    backgroundColor: ['#3498db', '#2ecc71', '#f39c12', '#95a5a6']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+
+        // Chat functionality
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                addMessage('user', message);
+                input.value = '';
+                adjustTextareaHeight(input);
+                
+                // Simulate AI response
+                setTimeout(() => {
+                    showTypingIndicator();
+                    setTimeout(() => {
+                        hideTypingIndicator();
+                        handleAIResponse(message);
+                    }, 2000);
+                }, 500);
+            }
+        }
+
+        function sendQuickMessage(message) {
+            addMessage('user', message);
+            
+            setTimeout(() => {
+                showTypingIndicator();
+                setTimeout(() => {
+                    hideTypingIndicator();
+                    handleAIResponse(message);
+                }, 2000);
+            }, 500);
+        }
+
+        function addMessage(sender, message) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            
+            messageDiv.innerHTML = `
+                <div class="message-avatar">${sender === 'user' ? 'You' : 'AI'}</div>
+                <div class="message-content">${message}</div>
+            `;
+            
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            const messagesContainer = document.getElementById('chatMessages');
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'typing-indicator';
+            typingDiv.id = 'typingIndicator';
+            
+            typingDiv.innerHTML = `
+                <div class="message-avatar">AI</div>
+                <div>
+                    AI is thinking
+                    <div class="typing-dots">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                    </div>
+                </div>
+            `;
+            
+            messagesContainer.appendChild(typingDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function hideTypingIndicator() {
+            const typingIndicator = document.getElementById('typingIndicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+        }
+
+        function handleAIResponse(userMessage) {
+            let response = '';
+            
+            if (userMessage.toLowerCase().includes('momentum')) {
+                response = `Great! I'll help you build a momentum strategy. Let me break this down into our three pillars:
+
+<div class="strategy-card">
+    <div class="strategy-title">Momentum Strategy - Draft</div>
+    <div class="strategy-pillars">
+        <div class="pillar">
+            <div class="pillar-title">Universe</div>
+            <div>S&P 500 stocks with volume > 1M</div>
+        </div>
+        <div class="pillar">
+            <div class="pillar-title">Signals</div>
+            <div>RSI(14) < 30 to 70 crossover + 20/50 MA</div>
+        </div>
+        <div class="pillar">
+            <div class="pillar-title">Sizing</div>
+            <div>Risk parity with 15% vol target</div>
+        </div>
+    </div>
+</div>
+
+<div class="code-block">
+# Strategy Code Preview
+def universe_filter(data):
+    return data[data['volume'] > 1_000_000]
+
+def momentum_signal(data):
+    data['rsi'] = calculate_rsi(data['close'], 14)
+    data['ma_20'] = data['close'].rolling(20).mean()
+    data['ma_50'] = data['close'].rolling(50).mean()
+    
+    long_signal = (data['rsi'] > 70) & (data['ma_20'] > data['ma_50'])
+    return long_signal
+</div>
+
+Would you like me to run a backtest on this strategy, or would you like to modify any of the parameters?`;
+            
+            } else if (userMessage.toLowerCase().includes('mean reversion')) {
+                response = `Perfect! Mean reversion strategies work well in ranging markets. Here's what I'm thinking:
+
+<div class="strategy-card">
+    <div class="strategy-title">Mean Reversion Strategy - Draft</div>
+    <div class="strategy-pillars">
+        <div class="pillar">
+            <div class="pillar-title">Universe</div>
+            <div>Tech stocks (QQQ components)</div>
+        </div>
+        <div class="pillar">
+            <div class="pillar-title">Signals</div>
+            <div>Bollinger Bands + RSI oversold</div>
+        </div>
+        <div class="pillar">
+            <div class="pillar-title">Sizing</div>
+            <div>Kelly criterion with drawdown control</div>
+        </div>
+    </div>
+</div>
+
+This strategy will buy when prices hit the lower Bollinger Band and RSI is below 30, then sell when they return to the mean. Should I proceed with backtesting?`;
+                
+            } else if (userMessage.toLowerCase().includes('pairs trading')) {
+                response = `Excellent choice! Pairs trading is market-neutral and works well with correlated assets. Here's my approach:
+
+<div class="strategy-card">
+    <div class="strategy-title">Pairs Trading Strategy - Draft</div>
+    <div class="strategy-pillars">
+        <div class="pillar">
+            <div class="pillar-title">Universe</div>
+            <div>Sector ETF pairs (XLF/XLK, etc.)</div>
+        </div>
+        <div class="pillar">
+            <div class="pillar-title">Signals</div>
+            <div>Z-score > 2 for pair spread</div>
+        </div>
+        <div class="pillar">
+            <div class="pillar-title">Sizing</div>
+            <div>Equal dollar amounts, opposite positions</div>
+        </div>
+    </div>
+</div>
+
+I'll look for pairs with correlation > 0.7 and trade when their spread deviates significantly. Ready to backtest?`;
+                
+            } else if (userMessage.toLowerCase().includes('show') && userMessage.toLowerCase().includes('strategies')) {
+                response = `Here are your current strategies:
+
+**Active Strategies:**
+- Tech Momentum: 35% allocation, +8.2% this month
+- Mean Reversion Pairs: 40% allocation, +3.1% this month
+
+**In Development:**
+- Value Rotation: Building universe selection
+
+**Performance Summary:**
+- Total return: +15.2% annualized
+- Sharpe ratio: 0.89
+- Max drawdown: -8.3%
+
+Would you like to dive deeper into any specific strategy or create a new one?`;
+                
+            } else {
+                response = `I understand you want to create a systematic trading strategy. To help you better, I need to understand your approach across the three pillars:
+
+🎯 **Universe Selection**: Which assets/markets do you want to trade?
+📊 **Signals & Indicators**: What technical or fundamental signals should trigger trades?
+💰 **Position Sizing**: How should we allocate capital and manage risk?
+
+For example, you could say: "I want to trade large-cap growth stocks using moving average crossovers with volatility-based position sizing"
+
+What's your strategy idea?`;
+            }
+            
+            addMessage('bot', response);
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+
+        function adjustTextareaHeight(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
+        }
+
+        // Auto-resize textarea on input
+        document.getElementById('messageInput').addEventListener('input', function() {
+            adjustTextareaHeight(this);
+        });
+    </script>
+</body>
+</html>
