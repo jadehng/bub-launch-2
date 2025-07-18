@@ -601,7 +601,7 @@ body {
   background: linear-gradient(135deg, var(--card) 60%, #f0f0f0 100%);
   color: var(--primary);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 16px;
   font-weight: 500;
   font-size: 1rem;
   padding: 0.7em 1.4em;

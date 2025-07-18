@@ -18,14 +18,14 @@ document.addEventListener('DOMContentLoaded', () => {
   let chatHistory = JSON.parse(localStorage.getItem('bubbleChatHistory') || '[]');
   let currentMessages = [];
   
-  // Investment-focused suggestion keys
+  // Investment-focused suggestion keys - personalized
   const suggestionKeys = [
-    'chat.question1', // Portfolio performance
-    'chat.question2', // Bitcoin position  
-    'chat.question3', // Recent trades
-    'chat.question4', // Cash balance
-    'chat.question5', // Risk exposure
-    'chat.question6'  // Market news
+    'chat.sample.performance', // What's my portfolio performance today?
+    'chat.sample.crypto', // Show me my crypto positions
+    'chat.sample.strategies', // How did my strategies perform this week?
+    'chat.sample.risk', // What's my current risk exposure?
+    'chat.sample.news', // Any important news affecting my holdings?
+    'chat.sample.rebalance'  // When should I rebalance my portfolio?
   ];
 
   // Animated placeholder functionality
