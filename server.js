@@ -30,8 +30,6 @@ app.use(
 
 // Document loading functions
 let missionDocument = "";
-let elevatorPitch = "";
-let strategicPoints = "";
 
 async function loadDocument(fileName) {
   try {
@@ -45,12 +43,8 @@ async function loadDocument(fileName) {
 
 async function loadAllDocuments() {
   try {
-    [missionDocument, elevatorPitch, strategicPoints] = await Promise.all([
-      loadDocument("mission_texte.txt"),
-      loadDocument("Elevatorpitch5min.md"),
-      loadDocument("PointsdeDépartStratégiquesBubble.md"),
-    ]);
-    console.log("All documents loaded successfully");
+    missionDocument = await loadDocument("mission_texte.txt");
+    console.log("Mission document loaded successfully");
   } catch (error) {
     console.error("Error loading documents:", error);
   }
@@ -383,9 +377,9 @@ app.post("/test-post", (req, res) => {
   res.status(200).send("POST test successful on Replit");
 });
 
-// Serve index.html for the root
+// Serve chatbot-standalone.html for the root
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "index.html"));
+  res.sendFile(path.join(__dirname, "chatbot-standalone.html"));
 });
 
 app.listen(port, () => {

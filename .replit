@@ -1,5 +1,5 @@
 run = "node server.js"
-entrypoint = "index.html"
+entrypoint = "chatbot-standalone.html"
 
 [nix]
 channel = "stable-22_11"
