@@ -228,49 +228,54 @@ app.post("/api/chat", async (req, res) => {
     return res.status(400).json({ error: "Message is required." });
   }
 
-  if (!openRouterApiKey || openRouterApiKey === "YOUR_API_KEY_HERE") {
-    return res.status(500).json({
-      error: "OpenRouter API key not configured on the server. Please add it to the .env file.",
-    });
-  }
+  // Set up Server-Sent Events
+  res.writeHead(200, {
+    'Content-Type': 'text/event-stream',
+    'Cache-Control': 'no-cache',
+    'Connection': 'keep-alive',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Cache-Control'
+  });
 
-  const messages = [
-    { role: "system", content: investmentSystemPrompt(language, context) },
-    { role: "user", content: message },
-  ];
-
-  const headers = {
-    'Authorization': `Bearer ${openRouterApiKey}`,
-    'Content-Type': 'application/json'
+  // Mock AI responses for testing
+  const mockResponses = {
+    'en': [
+      "Based on your portfolio data, I can see some interesting patterns.",
+      "Your current asset allocation shows good diversification across sectors.",
+      "The recent market volatility presents both opportunities and risks for your holdings.",
+      "I recommend reviewing your risk tolerance and rebalancing if needed.",
+      "Your portfolio performance is tracking well against market benchmarks."
+    ],
+    'fr': [
+      "Basé sur les données de votre portefeuille, je peux voir des tendances intéressantes.",
+      "Votre allocation d'actifs actuelle montre une bonne diversification entre secteurs.",
+      "La volatilité récente du marché présente des opportunités et des risques pour vos positions.",
+      "Je recommande de réviser votre tolérance au risque et de rééquilibrer si nécessaire.",
+      "La performance de votre portefeuille suit bien les indices de référence du marché."
+    ]
   };
 
-  try {
-    for (const model of models) {
-      try {
-        await streamResponse(res, model, messages, headers);
-        return; // If we get here, streaming was successful
-      } catch (error) {
-        console.error(`Error with model ${model}:`, error.message);
-        // Try the next model
-      }
-    }
-    
-    // If we've tried all models and none worked
-    if (!res.headersSent) {
-      res.status(500).json({
-        error: "All LLM providers failed. Please try again later.",
-        details: error?.message,
-      });
-    }
-  } catch (error) {
-    console.error('Error in chat endpoint:', error);
-    if (!res.headersSent) {
-      res.status(500).json({
-        error: "An error occurred while processing your request.",
-        details: error.message,
-      });
+  const responses = mockResponses[language] || mockResponses['en'];
+  const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+
+  // Simulate streaming response
+  const words = randomResponse.split(' ');
+  let currentWord = 0;
+
+  function sendNextWord() {
+    if (currentWord < words.length) {
+      const content = words[currentWord] + ' ';
+      res.write(`data: ${JSON.stringify({ content })}\n\n`);
+      currentWord++;
+      setTimeout(sendNextWord, 100); // Simulate typing delay
+    } else {
+      res.write(`data: ${JSON.stringify({ done: true })}\n\n`);
+      res.end();
     }
   }
+
+  // Start sending response
+  setTimeout(sendNextWord, 500); // Initial delay to show "thinking" status
 });
 
 // API endpoint for form submission
