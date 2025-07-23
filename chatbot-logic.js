@@ -1265,3 +1265,28 @@ function hideFeatureTiles() {
     }, 600);
   }
 }
+
+// Scroll animation to hide feature tiles
+function handleScrollAnimation() {
+  const featureTiles = document.querySelector('.chatbot-feature-tiles');
+  const scrollY = window.scrollY;
+  
+  if (featureTiles && scrollY > 50) {
+    featureTiles.style.opacity = '0';
+    featureTiles.style.transform = 'translateY(-20px)';
+    featureTiles.style.transition = 'all 0.3s ease';
+    
+    // Hide completely after animation
+    setTimeout(() => {
+      featureTiles.style.display = 'none';
+    }, 300);
+  }
+}
+
+// Add scroll event listener
+window.addEventListener('scroll', handleScrollAnimation);
+
+// Initialize scroll animation on page load
+document.addEventListener('DOMContentLoaded', function() {
+  handleScrollAnimation();
+});

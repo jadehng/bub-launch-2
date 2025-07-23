@@ -1,25 +1,25 @@
 /* Enhanced Bubble Chatbot - Professional Investment Interface */
 :root {
   /* Professional Investment App Colors */
-  --primary: #1a1a2e;
-  --primary-hover: #16213e;
+  --primary: #333333;
+  --primary-hover: #444444;
   --accent: #0066cc;
   --accent-hover: #0052a3;
   --success: #00c851;
   --warning: #ffbb33;
   --danger: #ff4444;
-  --background: #f8fafc;
-  --surface: #ffffff;
-  --surface-hover: #f1f5f9;
-  --border: #e2e8f0;
-  --text-primary: #1e293b;
-  --text-secondary: #64748b;
+  --background: #FFFFFF;
+  --surface: #FFFFFF;
+  --surface-hover: #F5F5F5;
+  --border: #EEEEEE;
+  --text-primary: #000000;
+  --text-secondary: #666666;
   --text-muted: #94a3b8;
   
   /* Shadows */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 16px 32px rgba(0, 0, 0, 0.08);
   --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
   
   /* Premium colors */
@@ -28,12 +28,12 @@
 }
 
 body {
-  background: var(--background);
-  color: var(--text-primary);
   font-family: 'Inter', sans-serif;
+  color: #000000;
+  background: var(--background);
   margin: 0;
   padding: 0;
-  min-height: 100vh;
+  line-height: 1.6;
 }
 
 /* Force header to be visible and positioned correctly */
@@ -920,6 +920,15 @@ body header.chatbot-header .header-center {
   gap: 1.5rem;
   margin-bottom: 2rem;
   flex-wrap: wrap;
+  transition: all 0.3s ease;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.chatbot-feature-tiles.hidden {
+  opacity: 0;
+  transform: translateY(-20px);
+  display: none;
 }
 
 .chatbot-quick-shortcuts-row {
@@ -1073,6 +1082,8 @@ body header.chatbot-header .dropdown-item {
   justify-content: space-between;
   align-items: center;
   background: white;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
 }
 
 body header.chatbot-header .dropdown-item:last-child {
@@ -1090,6 +1101,9 @@ body header.chatbot-header .dropdown-item.clickable {
   align-items: center;
   gap: 0.75rem;
   padding: 0.75rem 1rem;
+  font-family: 'Inter', sans-serif;
+  color: #000000;
+  font-size: 0.9rem;
 }
 
 body header.chatbot-header .dropdown-item.clickable:hover {
@@ -1108,13 +1122,16 @@ body header.chatbot-header .dropdown-icon {
 
 body header.chatbot-header .dropdown-label {
   font-weight: 500;
-  color: var(--text-primary);
+  color: #000000;
   flex: 1;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
 }
 
 body header.chatbot-header .dropdown-value {
   color: var(--text-secondary);
-  font-size: 0.875rem;
+  font-size: 0.9rem;
+  font-family: 'Inter', sans-serif;
 }
 
 body header.chatbot-header .dropdown-divider {
@@ -1825,20 +1842,22 @@ body .chatbot-sidebar.collapsed .sidebar-toggle-btn svg {
 
 .ai-mode-btn {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
-  padding: 1rem 1.5rem;
-  background: rgba(255, 255, 255, 0.8);
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 16px;
+  gap: 0.75rem;
+  padding: 0.75rem 1.25rem;
+  background: #F8F8F8;
+  color: #000000;
+  border: 1px solid #EEEEEE;
+  border-radius: 12px;
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.3s ease;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 0.9rem;
+  min-width: 140px;
+  justify-content: flex-start;
   position: relative;
   overflow: hidden;
-  backdrop-filter: blur(10px);
-  min-width: 120px;
-  font-family: 'Inter', sans-serif;
 }
 
 .ai-mode-btn::before {
@@ -1848,7 +1867,7 @@ body .chatbot-sidebar.collapsed .sidebar-toggle-btn svg {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.05), transparent);
   transition: left 0.5s;
 }
 
@@ -1857,19 +1876,24 @@ body .chatbot-sidebar.collapsed .sidebar-toggle-btn svg {
 }
 
 .ai-mode-btn:hover {
-  border-color: var(--primary);
-  transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
-  background: rgba(255, 255, 255, 0.95);
+  background: #FFFFFF;
+  border-color: #CCCCCC;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
 
 .ai-mode-btn:active {
-  transform: translateY(-2px) scale(1.01);
+  transform: translateY(0);
 }
 
 .ai-mode-icon {
-  font-size: 2rem;
-  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: #000000;
 }
 
 .ai-mode-btn:hover .ai-mode-icon {
@@ -1877,14 +1901,12 @@ body .chatbot-sidebar.collapsed .sidebar-toggle-btn svg {
 }
 
 .ai-mode-text {
-  font-weight: 600;
-  color: var(--primary);
-  font-size: 0.875rem;
-  text-align: center;
-  transition: all 0.3s ease;
+  font-weight: 500;
+  color: #000000;
+  font-size: 0.9rem;
+  white-space: nowrap;
 }
 
-/* AI Mode Button Tooltips */
 .ai-mode-btn[data-tooltip] {
   position: relative;
 }
@@ -1892,23 +1914,17 @@ body .chatbot-sidebar.collapsed .sidebar-toggle-btn svg {
 .ai-mode-btn[data-tooltip]:hover::after {
   content: attr(data-tooltip);
   position: absolute;
-  bottom: 100%;
+  bottom: -40px;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.9);
+  background: rgba(0, 0, 0, 0.8);
   color: white;
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
-  font-size: 0.875rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
   white-space: nowrap;
-  z-index: 1002;
-  margin-bottom: 0.5rem;
-  opacity: 0;
-  animation: tooltipFadeIn 0.3s ease forwards;
-  pointer-events: none;
-  max-width: 250px;
-  line-height: 1.4;
-  text-align: center;
+  z-index: 1000;
+  animation: tooltipFadeIn 0.2s ease-in-out;
 }
 
 /* Feature Tiles Animation */
@@ -2537,6 +2553,8 @@ body header.chatbot-header .dropdown-item {
   justify-content: space-between;
   align-items: center;
   background: white;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
 }
 
 body header.chatbot-header .dropdown-item:last-child {
@@ -2554,6 +2572,9 @@ body header.chatbot-header .dropdown-item.clickable {
   align-items: center;
   gap: 0.75rem;
   padding: 0.75rem 1rem;
+  font-family: 'Inter', sans-serif;
+  color: #000000;
+  font-size: 0.9rem;
 }
 
 body header.chatbot-header .dropdown-item.clickable:hover {
@@ -2572,17 +2593,34 @@ body header.chatbot-header .dropdown-icon {
 
 body header.chatbot-header .dropdown-label {
   font-weight: 500;
-  color: var(--text-primary);
+  color: #000000;
   flex: 1;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
 }
 
 body header.chatbot-header .dropdown-value {
   color: var(--text-secondary);
-  font-size: 0.875rem;
+  font-size: 0.9rem;
+  font-family: 'Inter', sans-serif;
 }
 
 body header.chatbot-header .dropdown-divider {
   height: 1px;
   background: var(--border);
   margin: 0.5rem 0;
+}
+
+.ai-mode-icon img {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+.ai-mode-icon svg text {
+  display: none !important;
+}
+
+.ai-mode-icon img text {
+  display: none !important;
 }
