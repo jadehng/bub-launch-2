@@ -2624,3 +2624,427 @@ body header.chatbot-header .dropdown-divider {
 .ai-mode-icon img text {
   display: none !important;
 }
+
+/* Enhanced Responsive Design for All Devices */
+
+/* Large Desktop (1200px and up) */
+@media (min-width: 1200px) {
+  .chatbot-sidebar {
+    width: 320px;
+  }
+  
+  .chatbot-main {
+    margin-left: 320px;
+  }
+  
+  .ai-mode-buttons {
+    gap: 1.5rem;
+  }
+  
+  .ai-mode-btn {
+    min-width: 160px;
+    padding: 0.875rem 1.5rem;
+  }
+}
+
+/* Desktop (1024px - 1199px) */
+@media (max-width: 1199px) and (min-width: 1024px) {
+  .chatbot-sidebar {
+    width: 280px;
+  }
+  
+  .chatbot-main {
+    margin-left: 280px;
+  }
+}
+
+/* Tablet Landscape (768px - 1023px) */
+@media (max-width: 1023px) and (min-width: 768px) {
+  .chatbot-sidebar {
+    width: 260px;
+  }
+  
+  .chatbot-main {
+    margin-left: 260px;
+  }
+  
+  .ai-mode-buttons {
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  
+  .ai-mode-btn {
+    min-width: 140px;
+    padding: 0.75rem 1.25rem;
+  }
+  
+  .bubble-logo-icon {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .bubble-title {
+    font-size: 1.75rem;
+  }
+}
+
+/* Tablet Portrait (768px and below) */
+@media (max-width: 768px) {
+  .chatbot-sidebar {
+    width: 100%;
+    transform: translateX(-100%);
+    z-index: 1001;
+  }
+  
+  .chatbot-sidebar.mobile-open {
+    transform: translateX(0);
+  }
+  
+  .chatbot-sidebar.collapsed {
+    width: 100%;
+    transform: translateX(-100%);
+  }
+  
+  .chatbot-main {
+    margin-left: 0;
+    width: 100%;
+  }
+  
+  .sidebar-toggle-btn {
+    display: flex !important;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 1002;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.5rem;
+    box-shadow: var(--shadow-md);
+  }
+  
+  .chatbot-layout.sidebar-collapsed .sidebar-toggle-btn {
+    left: 1rem;
+  }
+  
+  .ai-mode-buttons {
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .ai-mode-btn {
+    min-width: 120px;
+    padding: 0.625rem 1rem;
+    font-size: 0.85rem;
+  }
+  
+  .ai-mode-icon img {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .bubble-logo-icon {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .bubble-title {
+    font-size: 1.5rem;
+  }
+  
+  .bubble-motto {
+    font-size: 0.9rem;
+    max-width: 200px;
+  }
+  
+  /* Header adjustments for mobile */
+  body header.chatbot-header {
+    padding: 0.75rem 1rem;
+  }
+  
+  body header.chatbot-header .header-content {
+    gap: 0.75rem;
+  }
+  
+  body header.chatbot-header .header-btn {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+  }
+  
+  body header.chatbot-header .profile-btn {
+    padding: 0.375rem 0.75rem;
+  }
+  
+  body header.chatbot-header .profile-initial {
+    width: 28px;
+    height: 28px;
+    font-size: 0.8rem;
+  }
+}
+
+/* Mobile Large (480px - 767px) */
+@media (max-width: 767px) and (min-width: 481px) {
+  .ai-mode-buttons {
+    gap: 0.5rem;
+  }
+  
+  .ai-mode-btn {
+    min-width: 110px;
+    padding: 0.5rem 0.875rem;
+    font-size: 0.8rem;
+  }
+  
+  .chatbot-main-question {
+    font-size: 1.5rem;
+  }
+  
+  .chatbot-main-subtext {
+    font-size: 1rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  .chatbot-feature-tiles {
+    gap: 1rem;
+  }
+  
+  .feature-item {
+    padding: 0.75rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Mobile Small (480px and below) */
+@media (max-width: 480px) {
+  .chatbot-sidebar {
+    width: 100%;
+  }
+  
+  .sidebar-toggle-btn {
+    top: 0.75rem;
+    left: 0.75rem;
+    padding: 0.375rem;
+  }
+  
+  .ai-mode-buttons {
+    gap: 0.5rem;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .ai-mode-btn {
+    width: 100%;
+    max-width: 280px;
+    min-width: auto;
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    justify-content: center;
+  }
+  
+  .ai-mode-icon img {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .chatbot-main-question {
+    font-size: 1.25rem;
+    text-align: center;
+  }
+  
+  .chatbot-main-subtext {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  
+  .chatbot-feature-tiles {
+    gap: 0.75rem;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .feature-item {
+    width: 100%;
+    max-width: 280px;
+    padding: 0.75rem;
+    font-size: 0.85rem;
+    text-align: center;
+  }
+  
+  .chatbot-input-row {
+    padding: 0.75rem;
+  }
+  
+  .chatbot-input {
+    font-size: 0.9rem;
+    padding: 0.75rem;
+  }
+  
+  .chatbot-send-btn {
+    padding: 0.75rem;
+    min-width: 48px;
+  }
+  
+  /* Header adjustments for small mobile */
+  body header.chatbot-header {
+    padding: 0.5rem 0.75rem;
+  }
+  
+  body header.chatbot-header .header-content {
+    gap: 0.5rem;
+  }
+  
+  body header.chatbot-header .header-btn {
+    padding: 0.375rem 0.5rem;
+    font-size: 0.8rem;
+  }
+  
+  body header.chatbot-header .language-selector {
+    gap: 0.25rem;
+  }
+  
+  body header.chatbot-header .lang-btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+  }
+  
+  body header.chatbot-header .profile-btn {
+    padding: 0.25rem 0.5rem;
+  }
+  
+  body header.chatbot-header .profile-initial {
+    width: 24px;
+    height: 24px;
+    font-size: 0.75rem;
+  }
+  
+  /* Dropdown adjustments for small mobile */
+  body header.chatbot-header .profile-dropdown {
+    min-width: 200px;
+    right: -0.5rem;
+  }
+  
+  body header.chatbot-header .dropdown-item {
+    padding: 0.625rem 0.75rem;
+    font-size: 0.85rem;
+  }
+  
+  body header.chatbot-header .dropdown-label {
+    font-size: 0.85rem;
+  }
+  
+  body header.chatbot-header .dropdown-value {
+    font-size: 0.85rem;
+  }
+}
+
+/* Extra Small Mobile (360px and below) */
+@media (max-width: 360px) {
+  .ai-mode-btn {
+    padding: 0.625rem 0.875rem;
+    font-size: 0.85rem;
+  }
+  
+  .chatbot-main-question {
+    font-size: 1.125rem;
+  }
+  
+  .chatbot-main-subtext {
+    font-size: 0.85rem;
+  }
+  
+  .feature-item {
+    font-size: 0.8rem;
+    padding: 0.625rem;
+  }
+  
+  body header.chatbot-header {
+    padding: 0.375rem 0.5rem;
+  }
+  
+  body header.chatbot-header .header-btn {
+    padding: 0.25rem 0.375rem;
+    font-size: 0.75rem;
+  }
+  
+  body header.chatbot-header .profile-initial {
+    width: 20px;
+    height: 20px;
+    font-size: 0.7rem;
+  }
+}
+
+/* Landscape orientation adjustments */
+@media (max-height: 600px) and (orientation: landscape) {
+  .chatbot-sidebar {
+    overflow-y: auto;
+  }
+  
+  .sidebar-logo-section {
+    padding: 1rem 0.75rem;
+  }
+  
+  .bubble-logo-icon {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .bubble-title {
+    font-size: 1.25rem;
+  }
+  
+  .bubble-motto {
+    font-size: 0.8rem;
+  }
+  
+  .ai-mode-buttons {
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .ai-mode-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+  
+  .chatbot-main-question {
+    font-size: 1.25rem;
+  }
+  
+  .chatbot-main-subtext {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .ai-mode-icon img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+  
+  .bubble-logo-icon {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+}
+
+/* Print styles */
+@media print {
+  .chatbot-sidebar,
+  .sidebar-toggle-btn,
+  .chatbot-send-btn,
+  .profile-dropdown {
+    display: none !important;
+  }
+  
+  .chatbot-main {
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
+  
+  .chatbot-chat-container {
+    display: block !important;
+  }
+}

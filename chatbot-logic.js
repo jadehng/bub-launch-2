@@ -1290,3 +1290,44 @@ window.addEventListener('scroll', handleScrollAnimation);
 document.addEventListener('DOMContentLoaded', function() {
   handleScrollAnimation();
 });
+
+// Mobile sidebar functionality
+function initMobileSidebar() {
+  const sidebar = document.getElementById('chatbot-sidebar');
+  const sidebarToggle = document.getElementById('sidebar-toggle-btn');
+  const layout = document.querySelector('.chatbot-layout');
+  
+  if (sidebarToggle && sidebar) {
+    sidebarToggle.addEventListener('click', function() {
+      sidebar.classList.toggle('mobile-open');
+      layout.classList.toggle('sidebar-open');
+    });
+    
+    // Close sidebar when clicking outside on mobile
+    document.addEventListener('click', function(event) {
+      if (window.innerWidth <= 768) {
+        const isClickInsideSidebar = sidebar.contains(event.target);
+        const isClickOnToggle = sidebarToggle.contains(event.target);
+        
+        if (!isClickInsideSidebar && !isClickOnToggle && sidebar.classList.contains('mobile-open')) {
+          sidebar.classList.remove('mobile-open');
+          layout.classList.remove('sidebar-open');
+        }
+      }
+    });
+    
+    // Handle window resize
+    window.addEventListener('resize', function() {
+      if (window.innerWidth > 768) {
+        sidebar.classList.remove('mobile-open');
+        layout.classList.remove('sidebar-open');
+      }
+    });
+  }
+}
+
+// Initialize mobile functionality
+document.addEventListener('DOMContentLoaded', function() {
+  initMobileSidebar();
+  handleScrollAnimation();
+});
