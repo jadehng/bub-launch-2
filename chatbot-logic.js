@@ -1,5 +1,179 @@
 // Enhanced Bubble Chatbot Logic with History Management
 
+// Global language function
+function setLanguage(lang) {
+  console.log('setLanguage called with:', lang);
+  if (window.currentLanguage !== undefined) {
+    window.currentLanguage = lang;
+    document.documentElement.lang = lang;
+    if (window.updateAllTranslations) {
+      window.updateAllTranslations();
+    }
+    if (window.updateSuggestions) {
+      window.updateSuggestions();
+    }
+    
+    // Update language button states
+    const langBtns = document.querySelectorAll('.lang-btn');
+    langBtns.forEach(btn => {
+      btn.classList.remove('active');
+      if (btn.textContent.toLowerCase().includes(lang)) {
+        btn.classList.add('active');
+      }
+    });
+    
+    console.log('Language set to:', lang);
+  } else {
+    console.error('Language system not initialized yet');
+  }
+}
+
+// Debug function to check header elements
+function debugHeaderElements() {
+  console.log('=== HEADER ELEMENTS DEBUG ===');
+  
+  const header = document.querySelector('header.chatbot-header');
+  console.log('Header element:', header);
+  if (header) {
+    console.log('Header display:', window.getComputedStyle(header).display);
+    console.log('Header visibility:', window.getComputedStyle(header).visibility);
+    console.log('Header opacity:', window.getComputedStyle(header).opacity);
+    console.log('Header position:', window.getComputedStyle(header).position);
+    console.log('Header z-index:', window.getComputedStyle(header).zIndex);
+  }
+  
+  const langSelector = document.querySelector('.language-selector');
+  console.log('Language selector:', langSelector);
+  if (langSelector) {
+    console.log('Lang selector display:', window.getComputedStyle(langSelector).display);
+    console.log('Lang selector visibility:', window.getComputedStyle(langSelector).visibility);
+  }
+  
+  const langBtns = document.querySelectorAll('.lang-btn');
+  console.log('Language buttons found:', langBtns.length);
+  langBtns.forEach((btn, index) => {
+    console.log(`Lang button ${index}:`, btn);
+    console.log(`Lang button ${index} display:`, window.getComputedStyle(btn).display);
+    console.log(`Lang button ${index} visibility:`, window.getComputedStyle(btn).visibility);
+  });
+  
+  const profileBtn = document.getElementById('profile-btn');
+  console.log('Profile button:', profileBtn);
+  if (profileBtn) {
+    console.log('Profile button display:', window.getComputedStyle(profileBtn).display);
+    console.log('Profile button visibility:', window.getComputedStyle(profileBtn).visibility);
+  }
+  
+  const headerBtns = document.querySelectorAll('.header-btn');
+  console.log('Header buttons found:', headerBtns.length);
+  headerBtns.forEach((btn, index) => {
+    console.log(`Header button ${index}:`, btn);
+    console.log(`Header button ${index} display:`, window.getComputedStyle(btn).display);
+    console.log(`Header button ${index} visibility:`, window.getComputedStyle(btn).visibility);
+  });
+  
+  const sidebarToggle = document.getElementById('sidebar-toggle-btn');
+  console.log('Sidebar toggle button:', sidebarToggle);
+  if (sidebarToggle) {
+    console.log('Sidebar toggle display:', window.getComputedStyle(sidebarToggle).display);
+    console.log('Sidebar toggle visibility:', window.getComputedStyle(sidebarToggle).visibility);
+  }
+  
+  console.log('=== END HEADER DEBUG ===');
+}
+
+// Global profile dropdown function
+function toggleProfileDropdown() {
+  console.log('toggleProfileDropdown called');
+  const dropdown = document.getElementById('profile-dropdown');
+  const profileBtn = document.getElementById('profile-btn');
+  
+  console.log('Dropdown element:', dropdown);
+  console.log('Profile button element:', profileBtn);
+  
+  if (dropdown && profileBtn) {
+    const isVisible = dropdown.style.display === 'block';
+    console.log('Current dropdown visibility:', isVisible);
+    
+    // Force the dropdown to be visible
+    if (isVisible) {
+      dropdown.style.display = 'none';
+      dropdown.classList.remove('show');
+      profileBtn.classList.remove('active');
+    } else {
+      dropdown.style.display = 'block';
+      dropdown.classList.add('show');
+      profileBtn.classList.add('active');
+    }
+    
+    console.log('New dropdown display:', dropdown.style.display);
+    console.log('New dropdown classes:', dropdown.className);
+    console.log('Profile button active class:', profileBtn.classList.contains('active'));
+  } else {
+    console.error('Profile dropdown elements not found!');
+    console.error('Dropdown:', dropdown);
+    console.error('Profile button:', profileBtn);
+  }
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function(event) {
+  const dropdown = document.getElementById('profile-dropdown');
+  const profileBtn = document.getElementById('profile-btn');
+  
+  if (dropdown && profileBtn) {
+    const isClickInsideDropdown = dropdown.contains(event.target);
+    const isClickOnProfileBtn = profileBtn.contains(event.target);
+    
+    if (!isClickInsideDropdown && !isClickOnProfileBtn && dropdown.style.display === 'block') {
+      dropdown.style.display = 'none';
+      dropdown.classList.remove('show');
+      profileBtn.classList.remove('active');
+    }
+  }
+});
+
+// Global profile action handler
+function handleProfileAction(action) {
+  console.log('Profile action:', action);
+  // Handle different profile actions
+  switch(action) {
+    case 'account':
+      console.log('Opening account settings...');
+      // Add account settings logic here
+      break;
+    case 'upgrade':
+      console.log('Opening upgrade modal...');
+      showUpgradeModal();
+      break;
+    case 'settings':
+      console.log('Opening settings...');
+      // Add settings logic here
+      break;
+    case 'notifications':
+      console.log('Opening notification preferences...');
+      // Add notification settings logic here
+      break;
+    case 'theme':
+      console.log('Opening theme settings...');
+      // Add theme settings logic here
+      break;
+    case 'privacy':
+      console.log('Opening privacy settings...');
+      // Add privacy settings logic here
+      break;
+    case 'logout':
+      console.log('Logging out...');
+      // Add logout logic here
+      break;
+    default:
+      console.log('Unknown profile action:', action);
+  }
+}
+
+// Global variables
+window.currentLanguage = document.documentElement.lang || 'en';
+
 document.addEventListener('DOMContentLoaded', () => {
   const welcomeScreen = document.getElementById('chatbot-welcome');
   const chatContainer = document.getElementById('chatbot-chat-container');
@@ -13,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const newChatBtn = document.getElementById('new-chat-btn');
   
   // Language and chat state
-  let currentLanguage = document.documentElement.lang || 'en';
+  // currentLanguage is now global (window.currentLanguage)
   let currentChatId = null;
   let chatHistory = JSON.parse(localStorage.getItem('bubbleChatHistory') || '[]');
   let currentMessages = [];
@@ -34,7 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let placeholderInterval;
 
   function startPlaceholderAnimation() {
-    const placeholders = translations['chat.placeholder.rotating']?.[currentLanguage] || [
+    const placeholders = translations['chat.placeholder.rotating']?.[window.currentLanguage] || [
       'Ask about your portfolio performance...',
       'Check your crypto positions...',
       'Review recent transactions...'
@@ -42,8 +216,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     placeholderInterval = setInterval(() => {
       if (input) {
-        input.placeholder = placeholders[placeholderIndex];
-        placeholderIndex = (placeholderIndex + 1) % placeholders.length;
+      input.placeholder = placeholders[placeholderIndex];
+      placeholderIndex = (placeholderIndex + 1) % placeholders.length;
       }
     }, 2000);
   }
@@ -99,39 +273,36 @@ document.addEventListener('DOMContentLoaded', () => {
     updateSuggestions();
     loadChatHistory();
     
+    // Initialize profile dropdown
+    initializeProfileDropdown();
+    
     // Start placeholder animation
     startPlaceholderAnimation();
     
     console.log('Chatbot initialized successfully');
   }
 
+  // Handle send message
   function handleSendMessage() {
+    const input = document.getElementById('chatbot-input');
+    const message = input.value.trim();
+    
     console.log('handleSendMessage called');
-    const inputElement = document.getElementById('chatbot-input');
-    const message = inputElement ? inputElement.value.trim() : '';
     console.log('Message to send:', message);
+    
     if (!message) {
       console.log('Empty message, returning');
       return;
     }
     
-    console.log('Sending message:', message);
-    
-    // Handle first message - show shortcut buttons
-    if (isFirstMessage) {
-      animateFeatureTilesOut();
-      setTimeout(showNewShortcuts, 500);
-      isFirstMessage = false;
-      
-      // Dispatch custom event for tracking
-      document.dispatchEvent(new CustomEvent('userMessageSent', { detail: { message } }));
-    }
+    // Hide feature tiles on first interaction
+    hideFeatureTiles();
     
     // Add user message to chat
     addMessageToChat('user', message);
     
     // Clear input
-    inputElement.value = '';
+    input.value = '';
     
     // Show thinking status
     showThinkingStatus();
@@ -379,8 +550,67 @@ document.addEventListener('DOMContentLoaded', () => {
     updateHistoryDisplay();
   }
 
+  // Update history display in sidebar
   function updateHistoryDisplay() {
-    loadChatHistory();
+    const historyList = document.getElementById('chatbot-history-list');
+    const historyDropdown = document.getElementById('chat-history-dropdown');
+    
+    if (!historyList) return;
+    
+    // Clear existing history
+    historyList.innerHTML = '';
+    
+    // Get chat history from localStorage
+    const chatHistory = JSON.parse(localStorage.getItem('chatHistory') || '[]');
+    
+    if (chatHistory.length === 0) {
+      // Hide dropdown if no history
+      if (historyDropdown) {
+        historyDropdown.style.display = 'none';
+      }
+      return;
+    }
+    
+    // Show dropdown if there's history
+    if (historyDropdown) {
+      historyDropdown.style.display = 'block';
+    }
+    
+    // Display recent chats (limit to 5)
+    const recentChats = chatHistory.slice(-5).reverse();
+    
+    recentChats.forEach(chat => {
+      const historyItem = document.createElement('div');
+      historyItem.className = 'history-item';
+      historyItem.setAttribute('data-chat-id', chat.id);
+      
+      // Get first message preview
+      const firstMessage = chat.messages[0] || '';
+      const preview = firstMessage.length > 30 ? firstMessage.substring(0, 30) + '...' : firstMessage;
+      
+      // Format date
+      const date = new Date(chat.timestamp);
+      const formattedDate = date.toLocaleDateString('en-GB', { 
+        day: '2-digit', 
+        month: '2-digit', 
+        year: '2-digit' 
+      });
+      
+      historyItem.innerHTML = `
+        <div class="history-preview">${preview}</div>
+        <div class="history-date">${formattedDate}</div>
+      `;
+      
+      historyItem.addEventListener('click', () => {
+        loadChat(chat.id);
+        // Hide dropdown after selection
+        if (historyDropdown) {
+          historyDropdown.style.display = 'none';
+        }
+      });
+      
+      historyList.appendChild(historyItem);
+    });
   }
 
   function generateChatId() {
@@ -388,12 +618,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Language switching
-  function setLanguage(lang) {
-    currentLanguage = lang;
-    document.documentElement.lang = lang;
-    updateAllTranslations();
-    updateSuggestions();
-  }
+  // setLanguage(currentLanguage); // This line is now handled globally
 
   // Animate feature tiles out
   function animateFeatureTilesOut() {
@@ -411,17 +636,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Show new shortcuts
   function showNewShortcuts() {
-    const newShortcuts = document.getElementById('chatbot-new-shortcuts');
-    if (newShortcuts) {
-      newShortcuts.style.display = 'block';
-      newShortcuts.style.opacity = '0';
-      newShortcuts.style.transform = 'translateY(20px)';
-      
-      setTimeout(() => {
-        newShortcuts.style.transition = 'all 0.6s ease-out';
-        newShortcuts.style.opacity = '1';
-        newShortcuts.style.transform = 'translateY(0)';
-      }, 100);
+    if (window.BubbleAnimations) {
+      window.BubbleAnimations.animateShortcutsIn();
+        } else {
+      // Fallback to original implementation
+      const newShortcuts = document.getElementById('chatbot-new-shortcuts');
+      if (newShortcuts) {
+        newShortcuts.style.display = 'block';
+        newShortcuts.style.opacity = '0';
+        newShortcuts.style.transform = 'translateY(20px)';
+        
+        setTimeout(() => {
+          newShortcuts.style.transition = 'all 0.6s ease-out';
+          newShortcuts.style.opacity = '1';
+          newShortcuts.style.transform = 'translateY(0)';
+        }, 100);
+      }
     }
   }
 
@@ -430,12 +660,60 @@ document.addEventListener('DOMContentLoaded', () => {
   initializeSidebar();
   initializeProfileDropdown();
   initializeNewShortcuts();
+  initializeAIModeButtons();
+  addSidebarTooltips();
+  
+  // Immediate debug - check header elements
+  console.log('=== IMMEDIATE HEADER DEBUG ===');
+  const header = document.querySelector('header.chatbot-header');
+  console.log('Header found:', !!header);
+  if (header) {
+    console.log('Header HTML:', header.outerHTML);
+    console.log('Header computed display:', window.getComputedStyle(header).display);
+    console.log('Header computed visibility:', window.getComputedStyle(header).visibility);
+    console.log('Header computed opacity:', window.getComputedStyle(header).opacity);
+    console.log('Header computed position:', window.getComputedStyle(header).position);
+    console.log('Header computed top:', window.getComputedStyle(header).top);
+    console.log('Header computed z-index:', window.getComputedStyle(header).zIndex);
+  }
+  
+  const langBtns = document.querySelectorAll('.lang-btn');
+  console.log('Language buttons found:', langBtns.length);
+  langBtns.forEach((btn, index) => {
+    console.log(`Lang button ${index} HTML:`, btn.outerHTML);
+    console.log(`Lang button ${index} computed display:`, window.getComputedStyle(btn).display);
+    console.log(`Lang button ${index} computed visibility:`, window.getComputedStyle(btn).visibility);
+  });
+  
+  const headerBtns = document.querySelectorAll('.header-btn');
+  console.log('Header buttons found:', headerBtns.length);
+  headerBtns.forEach((btn, index) => {
+    console.log(`Header button ${index} HTML:`, btn.outerHTML);
+    console.log(`Header button ${index} computed display:`, window.getComputedStyle(btn).display);
+    console.log(`Header button ${index} computed visibility:`, window.getComputedStyle(btn).visibility);
+  });
+  
+  const profileBtn = document.getElementById('profile-btn');
+  console.log('Profile button found:', !!profileBtn);
+  if (profileBtn) {
+    console.log('Profile button HTML:', profileBtn.outerHTML);
+    console.log('Profile button computed display:', window.getComputedStyle(profileBtn).display);
+    console.log('Profile button computed visibility:', window.getComputedStyle(profileBtn).visibility);
+  }
+  
+  console.log('=== END IMMEDIATE DEBUG ===');
+  
+  // Debug header elements after initialization
+  setTimeout(() => {
+    debugHeaderElements();
+  }, 1000);
   
   // Export functions to window for debugging
   window.debugChatbot = {
     handleSendMessage: handleSendMessage,
     sendToServer: sendToServer,
     initializeChatbot: initializeChatbot,
+    debugHeaderElements: debugHeaderElements,
     testElements: () => {
       const sendBtn = document.getElementById('chatbot-send-btn');
       const input = document.getElementById('chatbot-input');
@@ -453,45 +731,214 @@ document.addEventListener('DOMContentLoaded', () => {
   console.log('All chatbot functions initialized and available at window.debugChatbot');
 });
 
-// Sidebar Functionality
+// Enhanced Sidebar Functionality
 function initializeSidebar() {
-    const sidebar = document.getElementById('chatbot-sidebar');
-    const toggleBtn = document.getElementById('sidebar-toggle-btn');
-    
-    if (toggleBtn) {
-        toggleBtn.addEventListener('click', function() {
-            sidebar.classList.toggle('collapsed');
-            
-            // Add tooltips when collapsed
-            if (sidebar.classList.contains('collapsed')) {
-                addSidebarTooltips();
-            } else {
-                removeSidebarTooltips();
-            }
-        });
+  console.log('Initializing sidebar...');
+  const sidebar = document.getElementById('chatbot-sidebar');
+  const toggleBtn = document.getElementById('sidebar-toggle-btn');
+  const layout = document.querySelector('.chatbot-layout');
+  
+  console.log('Sidebar element:', sidebar);
+  console.log('Toggle button element:', toggleBtn);
+  console.log('Layout element:', layout);
+  
+  // Load saved state
+  const savedState = localStorage.getItem('sidebarCollapsed');
+  console.log('Saved sidebar state:', savedState);
+  
+  if (savedState === 'true') {
+    sidebar?.classList.add('collapsed');
+    layout?.classList.add('sidebar-collapsed');
+  }
+  
+  if (toggleBtn && sidebar) {
+    console.log('Adding click listener to sidebar toggle button');
+    toggleBtn.addEventListener('click', () => {
+      console.log('Sidebar toggle button clicked!');
+      sidebar.classList.toggle('collapsed');
+      layout?.classList.toggle('sidebar-collapsed');
+      
+      // Save state
+      localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+      console.log('Sidebar collapsed:', sidebar.classList.contains('collapsed'));
+      
+      // Update toggle button icon
+      const icon = toggleBtn.querySelector('svg');
+      if (sidebar.classList.contains('collapsed')) {
+        icon.innerHTML = '<path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z"/>';
+      } else {
+        icon.innerHTML = '<path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>';
+      }
+    });
+    console.log('Sidebar toggle event listener added successfully');
+  } else {
+    console.error('Sidebar toggle button or sidebar not found!');
+  }
+
+  // Mobile sidebar handling
+  if (window.innerWidth <= 768) {
+    sidebar?.classList.add('mobile-closed');
+  }
+  
+  // Handle window resize
+  window.addEventListener('resize', () => {
+    if (window.innerWidth <= 768) {
+      sidebar?.classList.add('mobile-closed');
+        } else {
+      sidebar?.classList.remove('mobile-closed');
     }
+  });
+  
+  console.log('Sidebar initialization complete');
 }
 
-// Add tooltips to sidebar items when collapsed
+// Enhanced Tooltip System
 function addSidebarTooltips() {
-    const sidebarItems = document.querySelectorAll('.quick-action-btn, .setting-item');
-    
-    sidebarItems.forEach(item => {
-        const text = item.querySelector('span:not(.sidebar-icon)')?.textContent || 
-                    item.querySelector('.strategy-content span')?.textContent || '';
-        
-        if (text) {
-            item.setAttribute('title', text);
-        }
+  const tooltipElements = document.querySelectorAll('[data-tooltip]');
+  
+  tooltipElements.forEach(element => {
+    element.addEventListener('mouseenter', (e) => {
+      const tooltip = e.target.getAttribute('data-tooltip');
+      if (tooltip) {
+        showTooltip(e.target, tooltip);
+      }
     });
+    
+    element.addEventListener('mouseleave', () => {
+      hideTooltip();
+    });
+  });
 }
 
-// Remove tooltips when sidebar is expanded
-function removeSidebarTooltips() {
-    const sidebarItems = document.querySelectorAll('.quick-action-btn, .setting-item');
-    sidebarItems.forEach(item => {
-        item.removeAttribute('title');
+function showTooltip(element, text) {
+  const tooltip = document.createElement('div');
+  tooltip.className = 'custom-tooltip';
+  tooltip.textContent = text;
+  tooltip.style.cssText = `
+    position: absolute;
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    white-space: nowrap;
+    z-index: 1002;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  `;
+  
+  document.body.appendChild(tooltip);
+  
+  const rect = element.getBoundingClientRect();
+  tooltip.style.left = rect.right + 8 + 'px';
+  tooltip.style.top = rect.top + rect.height / 2 - tooltip.offsetHeight / 2 + 'px';
+  
+  setTimeout(() => {
+    tooltip.style.opacity = '1';
+  }, 10);
+  
+  element._tooltip = tooltip;
+}
+
+function hideTooltip() {
+  const tooltip = document.querySelector('.custom-tooltip');
+  if (tooltip) {
+    tooltip.remove();
+  }
+}
+
+// Enhanced Guide Me Notification System
+function initializeGuideMe() {
+  const guideMeBtn = document.getElementById('guide-me-btn');
+  
+  if (guideMeBtn) {
+    guideMeBtn.addEventListener('click', function() {
+      showGuideMeNotification();
     });
+  }
+  
+  // Set up periodic notifications
+  setupGuideNotifications();
+}
+
+function showGuideMeNotification() {
+  const notifications = [
+    {
+      type: 'market_alert',
+      title: 'Market Alert',
+      message: 'Markets are down 3% today - consider rebalancing your portfolio',
+      icon: '📉'
+    },
+    {
+      type: 'opportunity',
+      title: 'Opportunity Detected',
+      message: 'Tech stocks showing strong momentum this week',
+      icon: '🚀'
+    },
+    {
+      type: 'portfolio_insight',
+      title: 'Portfolio Insight',
+      message: 'Your crypto allocation is 15% above target',
+      icon: '📊'
+    },
+    {
+      type: 'trade_suggestion',
+      title: 'Trade Suggestion',
+      message: 'Consider taking profits on AAPL (+12% this month)',
+      icon: '💡'
+    }
+  ];
+  
+  const randomNotification = notifications[Math.floor(Math.random() * notifications.length)];
+  createNotification(randomNotification);
+}
+
+function createNotification(notificationData) {
+  const notification = document.createElement('div');
+  notification.className = `guide-notification ${notificationData.type}`;
+  
+  notification.innerHTML = `
+    <div class="notification-icon">${notificationData.icon}</div>
+    <div class="notification-content">
+      <div class="notification-title">${notificationData.title}</div>
+      <div class="notification-message">${notificationData.message}</div>
+    </div>
+    <button class="notification-close" aria-label="Close notification">×</button>
+  `;
+  
+  document.body.appendChild(notification);
+  
+  // Auto-remove after 8 seconds
+  setTimeout(() => {
+    if (notification.parentNode) {
+      notification.style.opacity = '0';
+      notification.style.transform = 'translateX(100%)';
+      setTimeout(() => {
+        notification.remove();
+      }, 300);
+    }
+  }, 8000);
+  
+  // Close button functionality
+  const closeBtn = notification.querySelector('.notification-close');
+  closeBtn.addEventListener('click', () => {
+    notification.style.opacity = '0';
+    notification.style.transform = 'translateX(100%)';
+    setTimeout(() => {
+      notification.remove();
+    }, 300);
+  });
+}
+
+function setupGuideNotifications() {
+  // Show a notification every 30 seconds (for demo purposes)
+  // In production, this would be based on real market data
+  setInterval(() => {
+    if (Math.random() < 0.3) { // 30% chance every 30 seconds
+      showGuideMeNotification();
+    }
+  }, 30000);
 }
 
 // Profile Dropdown Functionality
@@ -544,100 +991,89 @@ function handleProfileAction(action) {
     }
 }
 
+// Toggle profile dropdown
+// This function is now global
+
+// Close profile dropdown when clicking outside
+document.addEventListener('click', function(event) {
+  const profileContainer = document.querySelector('.profile-dropdown-container');
+  const dropdown = document.getElementById('profile-dropdown');
+  
+  if (profileContainer && dropdown && !profileContainer.contains(event.target)) {
+    dropdown.style.display = 'none';
+    const profileBtn = document.getElementById('profile-btn');
+    if (profileBtn) {
+      profileBtn.classList.remove('active');
+    }
+  }
+});
+
+// Initialize profile dropdown
+function initializeProfileDropdown() {
+  console.log('Initializing profile dropdown...');
+  const profileBtn = document.getElementById('profile-btn');
+  const dropdown = document.getElementById('profile-dropdown');
+  
+  console.log('Profile button found:', !!profileBtn);
+  console.log('Profile dropdown found:', !!dropdown);
+  
+  if (profileBtn) {
+    // Remove any existing onclick and add event listener
+    profileBtn.removeAttribute('onclick');
+    profileBtn.addEventListener('click', toggleProfileDropdown);
+    console.log('Profile dropdown event listener added');
+  } else {
+    console.error('Profile button not found!');
+  }
+}
+
 // New Shortcuts Functionality
-function initializeNewShortcuts() {
-    const newShortcuts = document.getElementById('chatbot-new-shortcuts');
+  // Initialize new chat functionality
+  function initializeNewShortcuts() {
+    const newChatBtn = document.getElementById('new-chat-btn');
+    const historyDropdown = document.getElementById('chat-history-dropdown');
     
-    // Handle new shortcut button clicks
-    if (newShortcuts) {
-        const shortcutBtns = newShortcuts.querySelectorAll('.new-shortcut-btn');
-        shortcutBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
-                const query = this.getAttribute('data-query');
-                if (query) {
-                    const input = document.getElementById('chatbot-input');
-                    if (input) {
-                        input.value = query;
-                        // Trigger the main send message function
-                        document.querySelector('#chatbot-send-btn').click();
-                    }
-                }
-            });
-        });
-    }
-}
-
-// Guide Me Functionality
-function initializeGuideMe() {
-    const guideMeBtn = document.getElementById('guide-me-btn');
-    
-    if (guideMeBtn) {
-        guideMeBtn.addEventListener('click', function() {
-            showGuideMeNotification();
-        });
+    if (newChatBtn) {
+      newChatBtn.addEventListener('click', function() {
+        // Toggle history dropdown
+        if (historyDropdown) {
+          const isVisible = historyDropdown.style.display !== 'none';
+          historyDropdown.style.display = isVisible ? 'none' : 'block';
+          
+          // Load chat history if showing
+          if (!isVisible) {
+            loadChatHistory();
+          }
+        }
+        
+        // Start new chat
+        startNewChat();
+      });
     }
     
-    // Set up periodic notifications
-    setupGuideNotifications();
-}
-
-// Show guide me notification
-function showGuideMeNotification() {
-    const notifications = [
-        {
-            type: 'info',
-            message: getTranslatedText('guide.market.down'),
-            icon: '📊'
-        },
-        {
-            type: 'success',
-            message: getTranslatedText('guide.energy.outperform'),
-            icon: '⚡'
-        },
-        {
-            type: 'warning',
-            message: getTranslatedText('guide.allocation.adjust'),
-            icon: '⚠️'
-        }
-    ];
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(event) {
+      if (historyDropdown && !historyDropdown.contains(event.target) && !newChatBtn.contains(event.target)) {
+        historyDropdown.style.display = 'none';
+      }
+    });
     
-    const randomNotification = notifications[Math.floor(Math.random() * notifications.length)];
-    createNotification(randomNotification);
-}
-
-// Create notification
-function createNotification(notificationData) {
-    const notification = document.createElement('div');
-    notification.className = `guide-notification ${notificationData.type}`;
-    notification.innerHTML = `
-        <div style="display: flex; align-items: center; gap: 0.5rem;">
-            <span style="font-size: 1.5rem;">${notificationData.icon}</span>
-            <div>
-                <p style="margin: 0; font-weight: 500;">${notificationData.message}</p>
-            </div>
-        </div>
-        <button onclick="this.parentElement.remove()" style="position: absolute; top: 0.5rem; right: 0.5rem; background: none; border: none; cursor: pointer; font-size: 1.2rem;">×</button>
-    `;
-    
-    document.body.appendChild(notification);
-    
-    // Auto remove after 5 seconds
-    setTimeout(() => {
-        if (notification.parentElement) {
-            notification.remove();
+    // Initialize shortcut buttons
+    const shortcutButtons = document.querySelectorAll('.new-shortcut-btn');
+    shortcutButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const query = this.getAttribute('data-query');
+        const input = document.getElementById('chatbot-input');
+        const sendBtn = document.getElementById('chatbot-send-btn');
+        
+        if (input && sendBtn && query) {
+          input.value = query;
+      input.focus();
+          sendBtn.click();
         }
-    }, 5000);
-}
-
-// Setup periodic guide notifications
-function setupGuideNotifications() {
-    // Show notification every 30 seconds for demo purposes
-    setInterval(() => {
-        if (Math.random() < 0.3) { // 30% chance
-            showGuideMeNotification();
-        }
-    }, 30000);
-}
+      });
+    });
+  }
 
 // Premium Features Functionality
 function initializePremiumFeatures() {
@@ -666,50 +1102,56 @@ function initializePremiumFeatures() {
     }
 }
 
-// Show upgrade modal with translations
-function showUpgradeModal(feature = null) {
-    const modal = document.createElement('div');
-    modal.className = 'modal-overlay';
-    modal.innerHTML = `
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>${getTranslatedText('modal.upgrade.title')}</h3>
-                <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">×</button>
+// Show upgrade modal with premium features
+function showUpgradeModal() {
+  const modal = document.createElement('div');
+  modal.className = 'modal-overlay';
+  modal.innerHTML = `
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Upgrade to Premium</h3>
+        <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="upgrade-features">
+          <div class="feature-item">
+            <div class="feature-icon">🚀</div>
+            <div class="feature-content">
+              <h4>Full Strategy Creation</h4>
+              <p>Create unlimited custom investment strategies using natural language</p>
             </div>
-            <div class="modal-body">
-                <p>${getTranslatedText('modal.upgrade.description')}</p>
-                <div style="margin: 1rem 0;">
-                    <h4>${getTranslatedText('modal.upgrade.features')}</h4>
-                    <ul style="list-style: none; padding: 0;">
-                        <li style="padding: 0.5rem 0; display: flex; align-items: center; gap: 0.5rem;">
-                            <span>✅</span> ${getTranslatedText('modal.upgrade.strategyBuilder')}
-                        </li>
-                        <li style="padding: 0.5rem 0; display: flex; align-items: center; gap: 0.5rem;">
-                            <span>✅</span> ${getTranslatedText('modal.upgrade.analysis')}
-                        </li>
-                        <li style="padding: 0.5rem 0; display: flex; align-items: center; gap: 0.5rem;">
-                            <span>✅</span> ${getTranslatedText('modal.upgrade.alerts')}
-                        </li>
-                        <li style="padding: 0.5rem 0; display: flex; align-items: center; gap: 0.5rem;">
-                            <span>✅</span> ${getTranslatedText('modal.upgrade.trading')}
-                        </li>
-                    </ul>
-                </div>
-                <button class="btn-primary btn-violet" style="width: 100%; margin-top: 1rem;" onclick="handleUpgrade()">
-                    ${getTranslatedText('modal.upgrade.button')}
-                </button>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">📊</div>
+            <div class="feature-content">
+              <h4>Advanced Analytics</h4>
+              <p>Real-time portfolio tracking and performance optimization</p>
             </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">⚡</div>
+            <div class="feature-content">
+              <h4>Live Deployment</h4>
+              <p>Deploy strategies to live trading with automated execution</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🔒</div>
+            <div class="feature-content">
+              <h4>Institutional Security</h4>
+              <p>Bank-grade security and compliance for your investments</p>
+            </div>
+          </div>
         </div>
-    `;
-    
-    document.body.appendChild(modal);
-    
-    // Close modal when clicking overlay
-    modal.addEventListener('click', function(e) {
-        if (e.target === modal) {
-            modal.remove();
-        }
-    });
+        <div class="upgrade-pricing">
+          <div class="price">€10/month</div>
+          <div class="price-subtitle">vs traditional 2% management fees</div>
+        </div>
+        <button class="btn-primary" onclick="handleUpgrade()">Upgrade Now</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
 }
 
 // Show customize portfolio modal with translations
@@ -777,4 +1219,49 @@ function showSettingsModal() {
 // Show notification settings
 function showNotificationSettings() {
     alert(getTranslatedText('notification.preferences'));
+}
+
+// Initialize AI mode buttons
+function initializeAIModeButtons() {
+  const aiModeButtons = document.querySelectorAll('.ai-mode-btn');
+  
+  aiModeButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const mode = this.getAttribute('data-mode');
+      const input = document.getElementById('chatbot-input');
+      const sendBtn = document.getElementById('chatbot-send-btn');
+      
+      // Set mode-specific queries
+      const modeQueries = {
+        guide: "Guide me through today's investment opportunities and help me discover what I need",
+        strategy: "Help me build a systematic investment strategy using natural language",
+        expert: "I need expert investment advice and market analysis",
+        analyst: "Analyze my portfolio performance and provide detailed insights",
+        auto: "Help me automate my investment decisions and portfolio management"
+      };
+      
+      if (input && sendBtn && modeQueries[mode]) {
+        input.value = modeQueries[mode];
+        input.focus();
+        sendBtn.click();
+      }
+    });
+    
+    // Update tooltip with translated text
+    const tooltipKey = button.getAttribute('data-tooltip');
+    if (tooltipKey) {
+      button.setAttribute('data-tooltip', getTranslatedText(tooltipKey));
+    }
+  });
+}
+
+// Animate feature tiles out after first interaction
+function hideFeatureTiles() {
+  const featureTiles = document.querySelector('.chatbot-feature-tiles');
+  if (featureTiles) {
+    featureTiles.classList.add('hidden');
+    setTimeout(() => {
+      featureTiles.style.display = 'none';
+    }, 600);
+  }
 }

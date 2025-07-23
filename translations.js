@@ -29,8 +29,12 @@ const translations = {
     fr: "Historique des Conversations",
   },
   "sidebar.newChat": {
-    en: "+ New Chat",
-    fr: "+ Nouvelle Conversation",
+    en: "New Chat",
+    fr: "Nouvelle Conversation",
+  },
+  "sidebar.recentChats": {
+    en: "Recent Chats",
+    fr: "Conversations Récentes",
   },
   "sidebar.portfolio": {
     en: "My Portfolio",
@@ -69,8 +73,8 @@ const translations = {
     fr: "comment puis-je vous aider aujourd'hui ?",
   },
   "chatbot.welcome.description": {
-    en: "I'm your personal AI investment manager. Ask me about your investments, recent trades, market positions, or any questions about your financial portfolio.",
-    fr: "Je suis votre gestionnaire d'investissement IA personnel. Posez-moi des questions sur vos investissements, transactions récentes, positions de marché, ou votre portefeuille financier.",
+    en: "I'm your personal AI investment manager. Ask me anything about your investments, recent trades, market positions, or any questions about your financial portfolio.",
+    fr: "Je suis votre gérant d'investissement IA personnel. Posez-moi n'importe quelle question sur vos investissements, transactions récentes, positions de marché, ou votre portefeuille financier.",
   },
 
   // Features
@@ -156,7 +160,7 @@ const translations = {
   },
   "quickaction.upgrade": {
     en: "Upgrade My Plan",
-    fr: "Améliorer Mon Plan",
+    fr: "Passer au Premium",
   },
 
   // New Shortcut Buttons
@@ -345,6 +349,48 @@ const translations = {
   "guide.allocation.adjust": {
     en: "Your portfolio allocation may need adjustment",
     fr: "Votre allocation de portefeuille pourrait nécessiter un ajustement",
+  },
+
+  // AI Mode Buttons
+  "ai.mode.guide": {
+    en: "Guide Me",
+    fr: "Guidez-moi",
+  },
+  "ai.mode.strategy": {
+    en: "Strategy Builder",
+    fr: "Créateur de Stratégie",
+  },
+  "ai.mode.expert": {
+    en: "Expert",
+    fr: "Expert",
+  },
+  "ai.mode.analyst": {
+    en: "Analyst",
+    fr: "Analyste",
+  },
+  "ai.mode.auto": {
+    en: "Auto",
+    fr: "Auto",
+  },
+  "ai.mode.guide.tooltip": {
+    en: "Perfect for users who don't know what to ask. I'll guide you through investment opportunities and help you discover what you need.",
+    fr: "Parfait pour les utilisateurs qui ne savent pas quoi demander. Je vous guiderai à travers les opportunités d'investissement et vous aiderai à découvrir ce dont vous avez besoin.",
+  },
+  "ai.mode.strategy.tooltip": {
+    en: "Build systematic investment strategies using natural language. Create, backtest, and deploy your own quantitative strategies.",
+    fr: "Construisez des stratégies d'investissement systématiques en langage naturel. Créez, testez et déployez vos propres stratégies quantitatives.",
+  },
+  "ai.mode.expert.tooltip": {
+    en: "Get expert investment advice and analysis. Deep insights into markets, trends, and investment opportunities.",
+    fr: "Obtenez des conseils d'investissement et des analyses d'expert. Aperçus approfondis des marchés, tendances et opportunités d'investissement.",
+  },
+  "ai.mode.analyst.tooltip": {
+    en: "Comprehensive portfolio analysis and performance insights. Understand your investments and optimize your positions.",
+    fr: "Analyse complète du portefeuille et aperçus de performance. Comprenez vos investissements et optimisez vos positions.",
+  },
+  "ai.mode.auto.tooltip": {
+    en: "Automate your investment decisions and portfolio management. Set up rules and let AI handle the execution.",
+    fr: "Automatisez vos décisions d'investissement et la gestion de portefeuille. Configurez des règles et laissez l'IA gérer l'exécution.",
   },
 };
 
