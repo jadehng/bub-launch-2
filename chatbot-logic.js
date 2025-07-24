@@ -458,7 +458,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Clear chat
     if (messageList) {
-      messageList.innerHTML = '';
+    messageList.innerHTML = '';
       messageList.style.display = 'none';
     }
     
@@ -527,24 +527,24 @@ document.addEventListener('DOMContentLoaded', () => {
   function saveChatToHistory() {
     if (!currentChatId || currentMessages.length === 0) return;
     
-    const existingChatIndex = chatHistory.findIndex(chat => chat.id === currentChatId);
+      const existingChatIndex = chatHistory.findIndex(chat => chat.id === currentChatId);
     const chatTitle = currentMessages[0]?.message.substring(0, 50) + '...' || 'New Chat';
-    
-    const chatData = {
-      id: currentChatId,
-      title: chatTitle,
+      
+      const chatData = {
+        id: currentChatId,
+        title: chatTitle,
       messages: currentMessages,
       timestamp: Date.now()
-    };
-    
-    if (existingChatIndex >= 0) {
-      chatHistory[existingChatIndex] = chatData;
-    } else {
-      chatHistory.unshift(chatData);
-    }
-    
-    // Keep only last 20 chats
-    chatHistory = chatHistory.slice(0, 20);
+      };
+      
+      if (existingChatIndex >= 0) {
+        chatHistory[existingChatIndex] = chatData;
+      } else {
+        chatHistory.unshift(chatData);
+      }
+      
+      // Keep only last 20 chats
+        chatHistory = chatHistory.slice(0, 20);
     
     localStorage.setItem('bubbleChatHistory', JSON.stringify(chatHistory));
     updateHistoryDisplay();
@@ -766,7 +766,7 @@ function initializeSidebar() {
       const icon = toggleBtn.querySelector('svg');
       if (sidebar.classList.contains('collapsed')) {
         icon.innerHTML = '<path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z"/>';
-      } else {
+        } else {
         icon.innerHTML = '<path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>';
       }
     });
@@ -1295,35 +1295,91 @@ document.addEventListener('DOMContentLoaded', function() {
 function initMobileSidebar() {
   const sidebar = document.getElementById('chatbot-sidebar');
   const sidebarToggle = document.getElementById('sidebar-toggle-btn');
+  const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+  const sidebarCloseBtn = document.getElementById('sidebar-close-btn');
   const layout = document.querySelector('.chatbot-layout');
   
+  // Function to check if we're on mobile/tablet
+  function isMobileView() {
+    return window.innerWidth <= 1024;
+  }
+  
+  // Function to open sidebar
+  function openSidebar() {
+    if (isMobileView()) {
+      sidebar.classList.add('mobile-open');
+      layout.classList.add('sidebar-open');
+      document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    }
+  }
+  
+  // Function to close sidebar
+  function closeSidebar() {
+    if (isMobileView()) {
+      sidebar.classList.remove('mobile-open');
+      layout.classList.remove('sidebar-open');
+      document.body.style.overflow = ''; // Restore scrolling
+    }
+  }
+  
+  // Mobile hamburger menu toggle
+  if (mobileMenuToggle && sidebar) {
+    mobileMenuToggle.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      openSidebar();
+    });
+  }
+  
+  // Sidebar close button (X)
+  if (sidebarCloseBtn && sidebar) {
+    sidebarCloseBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      closeSidebar();
+    });
+  }
+  
+  // Desktop sidebar toggle (existing functionality)
   if (sidebarToggle && sidebar) {
     sidebarToggle.addEventListener('click', function() {
-      sidebar.classList.toggle('mobile-open');
-      layout.classList.toggle('sidebar-open');
-    });
-    
-    // Close sidebar when clicking outside on mobile
-    document.addEventListener('click', function(event) {
-      if (window.innerWidth <= 768) {
-        const isClickInsideSidebar = sidebar.contains(event.target);
-        const isClickOnToggle = sidebarToggle.contains(event.target);
-        
-        if (!isClickInsideSidebar && !isClickOnToggle && sidebar.classList.contains('mobile-open')) {
-          sidebar.classList.remove('mobile-open');
-          layout.classList.remove('sidebar-open');
-        }
-      }
-    });
-    
-    // Handle window resize
-    window.addEventListener('resize', function() {
-      if (window.innerWidth > 768) {
-        sidebar.classList.remove('mobile-open');
-        layout.classList.remove('sidebar-open');
+      if (!isMobileView()) {
+        // Desktop behavior - toggle collapsed state
+        sidebar.classList.toggle('collapsed');
+        layout.classList.toggle('sidebar-collapsed');
       }
     });
   }
+  
+  // Close sidebar when clicking outside on mobile
+  document.addEventListener('click', function(event) {
+    if (isMobileView() && sidebar.classList.contains('mobile-open')) {
+      const isClickInsideSidebar = sidebar.contains(event.target);
+      const isClickOnMobileToggle = mobileMenuToggle && mobileMenuToggle.contains(event.target);
+      
+      if (!isClickInsideSidebar && !isClickOnMobileToggle) {
+        closeSidebar();
+      }
+    }
+  });
+  
+  // Handle window resize
+  window.addEventListener('resize', function() {
+    if (!isMobileView()) {
+      // Switch to desktop mode
+      closeSidebar();
+      sidebar.classList.remove('mobile-open');
+      layout.classList.remove('sidebar-open');
+      document.body.style.overflow = '';
+    }
+  });
+  
+  // Handle escape key
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape' && isMobileView() && sidebar.classList.contains('mobile-open')) {
+      closeSidebar();
+    }
+  });
 }
 
 // Initialize mobile functionality
