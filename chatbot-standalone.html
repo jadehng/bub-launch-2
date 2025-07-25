@@ -29,6 +29,11 @@
       </div>
       <div class="header-right">
         <button class="header-btn" data-translate="header.signIn" style="display: inline-flex !important; visibility: visible !important; opacity: 1 !important;">Sign In</button>
+        <!-- Upgrade My Plan Button - Moved from sidebar -->
+        <button class="header-btn upgrade-header-btn btn-violet" id="upgrade-header-btn" data-translate="quickaction.upgrade" style="display: inline-flex !important; visibility: visible !important; opacity: 1 !important;">
+          <span class="upgrade-icon">⬆️</span>
+          <span class="upgrade-text" data-translate="quickaction.upgrade">Upgrade My Plan</span>
+        </button>
         <div class="profile-dropdown-container" style="display: block !important; visibility: visible !important; opacity: 1 !important;">
           <button class="profile-btn" id="profile-btn" onclick="toggleProfileDropdown()" aria-label="Profile menu">
             <span class="profile-initial">J</span>
@@ -254,14 +259,6 @@
           </div>
         </div>
       </div>
-      
-      <!-- Upgrade CTA -->
-      <div class="sidebar-section upgrade-section">
-        <button class="upgrade-plan-btn btn-violet" id="upgrade-plan-btn" data-translate="quickaction.upgrade" data-tooltip="Upgrade to Premium">
-          <span class="upgrade-icon">⬆️</span>
-          <span class="upgrade-text" data-translate="quickaction.upgrade">Passer au Premium</span>
-        </button>
-      </div>
     </aside>
 
     <main class="chatbot-main">
@@ -484,6 +481,14 @@
           }
         });
       });
+
+      // Header upgrade button functionality
+      const upgradeHeaderBtn = document.getElementById('upgrade-header-btn');
+      if (upgradeHeaderBtn) {
+        upgradeHeaderBtn.addEventListener('click', function() {
+          showUpgradeModal();
+        });
+      }
 
       // Waitlist modal functionality
       const joinWaitlistBtn = document.getElementById('join-waitlist-btn');

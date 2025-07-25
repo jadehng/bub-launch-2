@@ -192,6 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let chatHistory = JSON.parse(localStorage.getItem('bubbleChatHistory') || '[]');
   let currentMessages = [];
   let isFirstMessage = true;
+  let hasUserInteracted = false; // Track if user has interacted with chatbot
   
   // Investment-focused suggestion keys - personalized
   const suggestionKeys = [
@@ -295,8 +296,17 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
     
-    // Hide feature tiles on first interaction
-    hideFeatureTiles();
+    // Mark that user has interacted and hide feature tiles on first interaction
+    if (!hasUserInteracted) {
+      hasUserInteracted = true;
+      hideFeatureTiles();
+      
+      // Add chat-active class to container for layout changes
+      const chatContainer = document.getElementById('chatbot-chat-container');
+      if (chatContainer) {
+        chatContainer.classList.add('chat-active');
+      }
+    }
     
     // Add user message to chat
     addMessageToChat('user', message);
@@ -452,9 +462,16 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function startNewChat() {
-    currentChatId = null;
-    currentMessages = [];
-    isFirstMessage = true;
+  currentChatId = null;
+  currentMessages = [];
+  isFirstMessage = true;
+  hasUserInteracted = false; // Reset interaction flag
+  
+  // Remove chat-active class when starting new chat
+  const chatContainer = document.getElementById('chatbot-chat-container');
+  if (chatContainer) {
+    chatContainer.classList.remove('chat-active');
+  }
     
     // Clear chat
     if (messageList) {
@@ -471,6 +488,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (featureTiles) {
       featureTiles.style.display = 'flex';
+      featureTiles.classList.remove('hidden');
     }
     
     hideThinkingStatus();
@@ -501,6 +519,13 @@ document.addEventListener('DOMContentLoaded', () => {
     currentChatId = chatId;
     currentMessages = chat.messages;
     isFirstMessage = false;
+    hasUserInteracted = true; // Mark as interacted when loading existing chat
+  
+  // Add chat-active class when loading existing chat with messages
+  const chatContainer = document.getElementById('chatbot-chat-container');
+  if (chatContainer && chat.messages.length > 0) {
+    chatContainer.classList.add('chat-active');
+  }
     
     // Clear and populate message list
     messageList.innerHTML = '';
@@ -510,7 +535,7 @@ document.addEventListener('DOMContentLoaded', () => {
       addMessageToChat(msg.sender, msg.message);
     });
     
-    // Show shortcuts if there are messages
+    // Show shortcuts and hide feature tiles if there are messages
     if (chat.messages.length > 0) {
       const shortcuts = document.getElementById('chatbot-new-shortcuts');
       const featureTiles = document.querySelector('.chatbot-feature-tiles');
@@ -520,6 +545,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       if (featureTiles) {
         featureTiles.style.display = 'none';
+        featureTiles.classList.add('hidden');
       }
     }
   }
@@ -620,7 +646,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Language switching
   // setLanguage(currentLanguage); // This line is now handled globally
 
-  // Animate feature tiles out
+  // Animate feature tiles out on first user interaction
   function animateFeatureTilesOut() {
     const featureTiles = document.querySelector('.chatbot-feature-tiles');
     if (featureTiles) {
@@ -661,6 +687,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initializeProfileDropdown();
   initializeNewShortcuts();
   initializeAIModeButtons();
+  initializeHeaderUpgradeButton();
   addSidebarTooltips();
   
   // Immediate debug - check header elements
@@ -730,6 +757,21 @@ document.addEventListener('DOMContentLoaded', () => {
   
   console.log('All chatbot functions initialized and available at window.debugChatbot');
 });
+
+// Initialize Header Upgrade Button
+function initializeHeaderUpgradeButton() {
+  const upgradeHeaderBtn = document.getElementById('upgrade-header-btn');
+  if (upgradeHeaderBtn) {
+    console.log('Adding click listener to header upgrade button');
+    upgradeHeaderBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      console.log('Header upgrade button clicked');
+      showUpgradeModal();
+    });
+  } else {
+    console.error('Header upgrade button not found!');
+  }
+}
 
 // Enhanced Sidebar Functionality
 function initializeSidebar() {
@@ -1255,35 +1297,33 @@ function initializeAIModeButtons() {
   });
 }
 
-// Animate feature tiles out after first interaction
+// Animate feature tiles out after first interaction only
 function hideFeatureTiles() {
   const featureTiles = document.querySelector('.chatbot-feature-tiles');
+  const shortcuts = document.getElementById('chatbot-new-shortcuts');
+  
   if (featureTiles) {
     featureTiles.classList.add('hidden');
     setTimeout(() => {
       featureTiles.style.display = 'none';
+      // Show shortcuts when tiles are hidden
+      if (shortcuts) {
+        shortcuts.style.display = 'block';
+        showNewShortcuts();
+      }
     }, 600);
   }
 }
 
-// Scroll animation to hide feature tiles
+// Remove scroll-based animation - feature tiles only hide on user interaction now
+// Keeping this function for backward compatibility but it won't hide feature tiles
 function handleScrollAnimation() {
-  const featureTiles = document.querySelector('.chatbot-feature-tiles');
-  const scrollY = window.scrollY;
-  
-  if (featureTiles && scrollY > 50) {
-    featureTiles.style.opacity = '0';
-    featureTiles.style.transform = 'translateY(-20px)';
-    featureTiles.style.transition = 'all 0.3s ease';
-    
-    // Hide completely after animation
-    setTimeout(() => {
-      featureTiles.style.display = 'none';
-    }, 300);
-  }
+  // No longer hides feature tiles on scroll
+  // Feature tiles now only hide on first user interaction
+  return;
 }
 
-// Add scroll event listener
+// Add scroll event listener (keeping for backward compatibility)
 window.addEventListener('scroll', handleScrollAnimation);
 
 // Initialize scroll animation on page load
@@ -1299,6 +1339,7 @@ function initMobileSidebar() {
   const sidebarCloseBtn = document.getElementById('sidebar-close-btn');
   const sidebarChevronBtn = document.getElementById('sidebar-chevron-btn');
   const layout = document.querySelector('.chatbot-layout');
+  const main = document.querySelector('.chatbot-main');
   
   // Function to check if we're on mobile/tablet
   function isMobileView() {
@@ -1314,14 +1355,19 @@ function initMobileSidebar() {
       if (isCollapsed) {
         sidebar.classList.add('collapsed');
         layout.classList.add('sidebar-collapsed');
+        if (main) main.style.marginLeft = '80px';
         if (chevronBtn) {
           chevronBtn.style.left = '68px'; // Collapsed position
         }
       } else {
+        if (main) main.style.marginLeft = '280px';
         if (chevronBtn) {
-          chevronBtn.style.left = '308px'; // Expanded position
+          chevronBtn.style.left = '268px'; // Expanded position
         }
       }
+    } else {
+      // Mobile view - reset margins
+      if (main) main.style.marginLeft = '0';
     }
   }
   
@@ -1330,21 +1376,40 @@ function initMobileSidebar() {
     localStorage.setItem('sidebarCollapsed', isCollapsed.toString());
   }
   
-  // Function to open sidebar
+  // Function to open sidebar on mobile
   function openSidebar() {
     if (isMobileView()) {
       sidebar.classList.add('mobile-open');
       layout.classList.add('sidebar-open');
+      document.body.classList.add('sidebar-open');
       document.body.style.overflow = 'hidden'; // Prevent background scrolling
+      
+      // Adjust main content to show both sidebar and chatbot
+      if (main && window.innerWidth > 600) {
+        // On larger mobile screens, show both sidebar and main content
+        main.style.marginLeft = '280px';
+        main.style.width = 'calc(100% - 280px)';
+      } else {
+        // On smaller screens, sidebar takes priority
+        main.style.marginLeft = '0';
+        main.style.width = '100%';
+      }
     }
   }
   
-  // Function to close sidebar
+  // Function to close sidebar on mobile
   function closeSidebar() {
     if (isMobileView()) {
       sidebar.classList.remove('mobile-open');
       layout.classList.remove('sidebar-open');
+      document.body.classList.remove('sidebar-open');
       document.body.style.overflow = ''; // Restore scrolling
+      
+      // Reset main content
+      if (main) {
+        main.style.marginLeft = '0';
+        main.style.width = '100%';
+      }
     }
   }
   
@@ -1354,13 +1419,18 @@ function initMobileSidebar() {
       const isCollapsed = sidebar.classList.toggle('collapsed');
       layout.classList.toggle('sidebar-collapsed');
       
+      // Update main content margin
+      if (main) {
+        main.style.marginLeft = isCollapsed ? '80px' : '280px';
+      }
+      
       // Update chevron button position
       const chevronBtn = document.getElementById('sidebar-chevron-btn');
       if (chevronBtn) {
         if (isCollapsed) {
           chevronBtn.style.left = '68px'; // Collapsed position
         } else {
-          chevronBtn.style.left = '308px'; // Expanded position
+          chevronBtn.style.left = '268px'; // Expanded position
         }
       }
       
@@ -1423,13 +1493,18 @@ function initMobileSidebar() {
       closeSidebar();
       sidebar.classList.remove('mobile-open');
       layout.classList.remove('sidebar-open');
+      document.body.classList.remove('sidebar-open');
       document.body.style.overflow = '';
       // Restore desktop collapsed state from localStorage
       loadSidebarState();
     } else {
-      // Switch to mobile mode - remove desktop classes
+      // Switch to mobile mode - remove desktop classes and reset margins
       sidebar.classList.remove('collapsed');
       layout.classList.remove('sidebar-collapsed');
+      if (main) {
+        main.style.marginLeft = '0';
+        main.style.width = '100%';
+      }
     }
   });
   

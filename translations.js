@@ -373,24 +373,24 @@ const translations = {
     fr: "Auto",
   },
   "ai.mode.guide.tooltip": {
-    en: "Perfect for users who don't know what to ask. I'll guide you through investment opportunities and help you discover what you need.",
-    fr: "Parfait pour les utilisateurs qui ne savent pas quoi demander. Je vous guiderai à travers les opportunités d'investissement et vous aiderai à découvrir ce dont vous avez besoin.",
+    en: "Perfect for users who don't know what to ask.\nI'll guide you through investment opportunities\nand help you discover what you need.",
+    fr: "Parfait pour les utilisateurs qui ne savent pas\nquoi demander. Je vous guiderai à travers\nles opportunités d'investissement et vous aiderai\nà découvrir ce dont vous avez besoin.",
   },
   "ai.mode.strategy.tooltip": {
-    en: "Build systematic investment strategies using natural language. Create, backtest, and deploy your own quantitative strategies.",
-    fr: "Construisez des stratégies d'investissement systématiques en langage naturel. Créez, testez et déployez vos propres stratégies quantitatives.",
+    en: "Build systematic investment strategies using\nnatural language. Create, backtest, and deploy\nyour own quantitative strategies.",
+    fr: "Construisez des stratégies d'investissement\nsystématiques en langage naturel. Créez,\ntestez et déployez vos propres stratégies\nquantitatives.",
   },
   "ai.mode.expert.tooltip": {
-    en: "Get expert investment advice and analysis. Deep insights into markets, trends, and investment opportunities.",
-    fr: "Obtenez des conseils d'investissement et des analyses d'expert. Aperçus approfondis des marchés, tendances et opportunités d'investissement.",
+    en: "Get expert investment advice and analysis.\nDeep insights into markets, trends,\nand investment opportunities.",
+    fr: "Obtenez des conseils d'investissement\net des analyses d'expert. Aperçus approfondis\ndes marchés, tendances et opportunités\nd'investissement.",
   },
   "ai.mode.analyst.tooltip": {
-    en: "Comprehensive portfolio analysis and performance insights. Understand your investments and optimize your positions.",
-    fr: "Analyse complète du portefeuille et aperçus de performance. Comprenez vos investissements et optimisez vos positions.",
+    en: "Comprehensive portfolio analysis and\nperformance insights. Understand your\ninvestments and optimize your positions.",
+    fr: "Analyse complète du portefeuille et\naperçus de performance. Comprenez vos\ninvestissements et optimisez vos positions.",
   },
   "ai.mode.auto.tooltip": {
-    en: "Automate your investment decisions and portfolio management. Set up rules and let AI handle the execution.",
-    fr: "Automatisez vos décisions d'investissement et la gestion de portefeuille. Configurez des règles et laissez l'IA gérer l'exécution.",
+    en: "Automate your investment decisions and\nportfolio management. Set up rules and\nlet AI handle the execution.",
+    fr: "Automatisez vos décisions d'investissement\net la gestion de portefeuille. Configurez\ndes règles et laissez l'IA gérer l'exécution.",
   },
 };
 
@@ -408,6 +408,14 @@ function updateAllTranslations() {
     const key = element.getAttribute('data-translate');
     if (translations[key] && translations[key][currentLang]) {
       element.textContent = translations[key][currentLang];
+    }
+  });
+  
+  // Update AI mode button tooltips with proper translations
+  document.querySelectorAll('.ai-mode-btn[data-tooltip]').forEach(button => {
+    const tooltipKey = button.getAttribute('data-tooltip');
+    if (translations[tooltipKey] && translations[tooltipKey][currentLang]) {
+      button.setAttribute('data-tooltip', translations[tooltipKey][currentLang]);
     }
   });
 }
