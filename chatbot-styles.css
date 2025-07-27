@@ -24,7 +24,7 @@
   
   /* Premium colors */
   --premium-gold: #ffd700;
-  --premium-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --premium-gradient: linear-gradient(135deg, #333333 0%, #444444 100%);
 }
 
 body {
@@ -87,7 +87,7 @@ body header.chatbot-header .header-center {
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 1rem !important;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  background: linear-gradient(135deg, #333333 0%, #444444 100%) !important;
   color: white !important;
   border: none !important;
   border-radius: 6px;
@@ -96,15 +96,15 @@ body header.chatbot-header .header-center {
   cursor: pointer;
   transition: all 0.3s ease;
   text-decoration: none;
-  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   visibility: visible !important;
   opacity: 1 !important;
 }
 
 .upgrade-header-btn:hover {
-  background: linear-gradient(135deg, #5a60ea 0%, #6b47a3 100%) !important;
+  background: #6b7280 !important;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .upgrade-header-btn .upgrade-icon {
@@ -770,21 +770,21 @@ body header.chatbot-header .header-center {
 
 /* Chatbot submit button (send) styling to match CTA */
 .chatbot-send-btn {
-  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  background: linear-gradient(135deg, #333333 0%, #444444 100%);
   color: #fff;
   border: none;
   border-radius: 8px;
   padding: 0.7em 1.2em;
   font-size: 1.1rem;
   font-weight: 600;
-  box-shadow: 0 4px 12px rgba(118, 75, 162, 0.10);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transition: background 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 .chatbot-send-btn:hover {
-  background: linear-gradient(135deg, #6b47a3 0%, #5a60ea 100%);
+  background: #6b7280;
 }
 
 /* Modal Styles */
@@ -877,15 +877,15 @@ body header.chatbot-header .header-center {
   box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
 }
 
-/* Violet/Purple Button for Waitlist and CTA (from waitlist chart area) */
+/* Bubble Brand Button for Waitlist and CTA (from waitlist chart area) */
 .btn-violet {
-  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  background: linear-gradient(135deg, #333333 0%, #444444 100%);
   color: #fff !important;
   border: none;
-  box-shadow: 0 4px 12px rgba(118, 75, 162, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 .btn-violet:hover {
-  background: linear-gradient(135deg, #6b47a3 0%, #5a60ea 100%);
+  background: #6b7280;
 }
 
 /* Make logo larger and without background for header and welcome */
@@ -1459,7 +1459,7 @@ body .chatbot-sidebar.collapsed .sidebar-toggle-btn svg {
 .profile-avatar {
   width: 40px;
   height: 40px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #333333 0%, #444444 100%);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -1615,7 +1615,7 @@ body .chatbot-sidebar.collapsed .sidebar-toggle-btn svg {
   gap: 0.75rem;
   width: 100%;
   padding: 0.75rem 1rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #333333 0%, #444444 100%);
   color: white;
   border: none;
   border-radius: 12px;
@@ -1627,7 +1627,7 @@ body .chatbot-sidebar.collapsed .sidebar-toggle-btn svg {
 
 .btn-new-chat:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
 .chatbot-sidebar.collapsed .btn-new-chat {
